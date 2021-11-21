@@ -4,6 +4,11 @@ import { StyleSheet, Text, View } from "react-native";
 import Button from "../components/Exports";
 import colors from "../config/colors";
 import { RootStackParamList } from "../../App";
+import CovidApi from "../../CovidApi";
+
+async function getCovidStats() {
+  const allCovidData = await CovidApi.getAllCovidStats();
+}
 
 export default function Landing({
   navigation,
@@ -19,7 +24,10 @@ export default function Landing({
           type="primary"
         />
         <Button
-          onPress={() => navigation.navigate("Choices")}
+          onPress={() => {
+            getCovidStats();
+            console.log("hei");
+          }}
           title="vaccine"
           icon="jeehh"
           type="primary"
