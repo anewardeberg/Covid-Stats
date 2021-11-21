@@ -1,17 +1,21 @@
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { RootStackParamList } from "../../App";
 import Button from "../components/Exports";
 import Heading from "../components/Heading";
 import colors from "../config/colors";
 
-export default function Choices() {
+export default function Choices({
+  navigation,
+}: NativeStackScreenProps<RootStackParamList, "Choices">) {
   const [pageType, setPageType] = useState("infections");
   return (
     <View style={styles.container}>
       <Heading text={pageType} />
       <View style={styles.buttonContainer}>
         <Button
-          onPress={() => alert("hej")}
+          onPress={() => navigation.navigate("List")}
           title="list"
           icon="jeehh"
           type="primary"

@@ -64,7 +64,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginTop: 15,
     marginBottom: 10,
-    textTransform: "uppercase",
   },
   navigationButtonIcon: {
     margin: 5,
