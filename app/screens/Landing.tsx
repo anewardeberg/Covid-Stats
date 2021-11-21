@@ -13,10 +13,7 @@ export default function Landing({
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
         <Button
-          onPress={() => {
-            navigation.navigate("Choices");
-            setPageType;
-          }}
+          onPress={() => navigation.navigate("Choices")}
           title="infections"
           icon="jeehh"
           type="primary"
