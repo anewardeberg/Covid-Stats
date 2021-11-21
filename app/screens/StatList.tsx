@@ -1,8 +1,10 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useState } from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { RootStackParamList } from "../../App";
 import CovidApi from "../../CovidApi";
+import Heading from "../components/Heading";
+import List from "../components/List";
 import ListItem from "../components/ListItem";
 import Statistics from "../components/Statistics";
 import colors from "../config/colors";
@@ -30,12 +32,12 @@ export default function StatList(
 
   getCovidStats();
   return (
-    <>
-      <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.innerContainer}>
+        <Heading text="world statistics" />
         <Statistics cases={cases} deaths={deaths} recovered={recovered} />
-        <ListItem title="HEJ" subtitle="halla" />
       </View>
-    </>
+    </SafeAreaView>
   );
 }
 
@@ -47,4 +49,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  innerContainer: { flex: 1, margin: 20 },
 });
