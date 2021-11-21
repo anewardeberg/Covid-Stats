@@ -1,12 +1,58 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import Button from "../components/Exports";
+import Heading from "../components/Heading";
+import colors from "../config/colors";
 
 export default function Choices() {
+  const [pageType, setPageType] = useState("infections");
   return (
-    <View>
-      <Text></Text>
+    <View style={styles.container}>
+      <Heading text={pageType} />
+      <View style={styles.buttonContainer}>
+        <Button
+          onPress={() => alert("hej")}
+          title="list"
+          icon="jeehh"
+          type="primary"
+        />
+        <Button
+          onPress={() => alert("hej")}
+          title="search"
+          icon="jeehh"
+          type="primary"
+        />
+        <Button
+          onPress={() => alert("hej")}
+          title="compare"
+          icon="jeehh"
+          type="primary"
+        />
+        <Button
+          onPress={() => alert("hej")}
+          title="?"
+          icon="jeehh"
+          type="primary"
+        />
+      </View>
     </View>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: "column",
+    backgroundColor: colors.backgroundBlue,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  buttonContainer: {
+    flex: 1,
+    flexDirection: "row",
+    alignContent: "center",
+    flexWrap: "wrap",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});

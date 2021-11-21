@@ -1,58 +1,21 @@
-import { StatusBar } from "expo-status-bar";
+import { NavigationContainer } from "@react-navigation/native";
 import React from "react";
-import { Dimensions, StyleSheet, Text, View } from "react-native";
-import Button from "./app/components/Button";
-import colors from "./app/config/colors";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Choices from "./app/screens/Choices";
+import Landing from "./app/screens/Landing";
+export type RootStackParamList = {
+  Landing: undefined;
+  Choices: undefined;
+};
 
 export default function App() {
+  const Stack = createNativeStackNavigator<RootStackParamList>();
   return (
-    <View style={styles.container}>
-      <View style={styles.buttonContainer}>
-        <Button
-          onPress={() => alert("hej")}
-          title="hej"
-          icon="jeehh"
-          type="primary"
-        />
-        <Button
-          onPress={() => alert("hej")}
-          title="hej"
-          icon="jeehh"
-          type="primary"
-        />
-        <Button
-          onPress={() => alert("hej")}
-          title="hej"
-          icon="jeehh"
-          type="primary"
-        />
-        <Button
-          onPress={() => alert("hej")}
-          title="hej"
-          icon="jeehh"
-          type="primary"
-        />
-
-        <StatusBar style="auto" />
-      </View>
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Landing" component={Landing}></Stack.Screen>
+        <Stack.Screen name="Choices" component={Choices}></Stack.Screen>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "column",
-    backgroundColor: colors.backgroundBlue,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  buttonContainer: {
-    flex: 1,
-    flexDirection: "row",
-    alignContent: "center",
-    flexWrap: "wrap",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

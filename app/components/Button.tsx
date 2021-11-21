@@ -3,6 +3,7 @@ import colors from "../config/colors";
 import {
   GestureResponderEvent,
   StyleSheet,
+  Image,
   Text,
   TouchableOpacity,
   View,
@@ -16,17 +17,32 @@ type Props = {
 };
 
 export default function Button({ onPress, title, icon, type }: Props) {
-  return (
-    <TouchableOpacity onPress={onPress} style={styles.buttonContainer}>
-      <View style={styles.buttonIcon} />
-      <Text style={styles.buttonText}>{title}</Text>
-    </TouchableOpacity>
-  );
+  if (type == "navigation") {
+    return (
+      <TouchableOpacity
+        onPress={onPress}
+        style={styles.navigationButtonContainer}
+      >
+        <View style={styles.navigationButtonIcon} />
+      </TouchableOpacity>
+    );
+  } else {
+    return (
+      <TouchableOpacity onPress={onPress} style={styles.primaryButtonContainer}>
+        <Image
+          style={styles.buttonIcon}
+          source={require("../assets/favicon.png")}
+        />
+        <Text style={styles.buttonText}>{title}</Text>
+      </TouchableOpacity>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-  buttonContainer: {
+  primaryButtonContainer: {
     margin: 10,
+    flexDirection: "column",
     backgroundColor: colors.white,
     width: 150,
     height: 100,
@@ -34,16 +50,28 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 12,
   },
+  navigationButtonContainer: {
+    backgroundColor: colors.white,
+    width: 60,
+    height: 50,
+    borderRadius: 15,
+    paddingVertical: 5,
+    paddingHorizontal: 5,
+  },
   buttonIcon: {
-    flex: 1,
     width: 30,
     height: 30,
-    backgroundColor: colors.covidRed,
-    fontWeight: "bold",
     alignSelf: "center",
     marginTop: 15,
     marginBottom: 10,
     textTransform: "uppercase",
+  },
+  navigationButtonIcon: {
+    margin: 5,
+    width: 30,
+    height: 30,
+    backgroundColor: colors.covidRed,
+    alignSelf: "center",
   },
   buttonText: {
     flex: 1,
