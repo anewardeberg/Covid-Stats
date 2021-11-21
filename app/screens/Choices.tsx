@@ -15,7 +15,7 @@ export default function Choices({
       <Heading text={pageType} />
       <View style={styles.buttonContainer}>
         <Button
-          onPress={() => navigation.navigate("List")}
+          onPress={() => navigation.navigate("StatList")}
           title="list"
           icon="jeehh"
           type="primary"

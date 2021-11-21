@@ -1,7 +1,8 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import React from "react";
+import React, { useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { RootStackParamList } from "../../App";
+import CovidApi from "../../CovidApi";
 import ListItem from "../components/ListItem";
 import Statistics from "../components/Statistics";
 import colors from "../config/colors";
@@ -10,14 +11,23 @@ type Props = {
   loading: boolean;
 };
 
-export default function List(
-  { navigation }: NativeStackScreenProps<RootStackParamList, "List">,
-  { loading }: Props
-) {
+export default function List({ loading }: Props) {
+  const [cases, setCases] = useState(0);
+  const [deaths, setDeaths] = useState(0);
+  const [recovered, setRecovered] = useState(0);
+
+  async function getCovidStats() {
+    const allCovidData = await CovidApi.getAllCovidStats();
+    setCases(allCovidData.cases);
+    setDeaths(allCovidData.deaths);
+    setRecovered(allCovidData.recovered);
+  }
+
+  getCovidStats();
   return (
     <>
       <View style={styles.container}>
-        <Statistics cases={257707492} deaths={5167029} recovered={232661187} />
+        <Statistics cases={cases} deaths={deaths} recovered={recovered} />
         <ListItem title="HEJ" subtitle="halla" />
       </View>
     </>
