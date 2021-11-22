@@ -17,7 +17,10 @@ export default class CovidList extends Component {
 
   fetchCovidData = async () => {
     const countriesCovidData = await CovidApi.getAllCountriesCovidStats();
-    this.setState({ data: countriesCovidData });
+    const ascendingCountries = countriesCovidData.sort((a, b) => {
+      return b.cases - a.cases;
+    });
+    this.setState({ data: ascendingCountries });
   };
 
   render() {
