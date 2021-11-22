@@ -12,7 +12,7 @@ export default function Choices({
   const [pageType, setPageType] = useState("infections");
   return (
     <View style={styles.container}>
-      <Heading text={pageType} />
+      <Heading text={pageType} type="screen" />
       <View style={styles.buttonContainer}>
         <Button
           onPress={() => navigation.navigate("StatList")}
@@ -33,7 +33,7 @@ export default function Choices({
           type="primary"
         />
         <Button
-          onPress={() => alert("hej")}
+          onPress={() => navigation.navigate("Detail")}
           title="?"
           icon="jeehh"
           type="primary"

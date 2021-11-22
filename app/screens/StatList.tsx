@@ -34,7 +34,7 @@ export default function StatList(
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.innerContainer}>
-        <Heading text="world statistics" />
+        <Heading text="world statistics" type="screen" />
         <Statistics cases={cases} deaths={deaths} recovered={recovered} />
         <List />
       </View>

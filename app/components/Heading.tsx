@@ -4,21 +4,32 @@ import colors from "../config/colors";
 
 type Props = {
   text: string;
+  subtitle?: string;
+  type: "screen" | "detail";
 };
-export default function Heading({ text }: Props) {
-  return (
-    <>
-      <Text style={styles.heading}>{text}</Text>
-    </>
-  );
+export default function Heading({ text, subtitle, type }: Props) {
+  if ((type = "detail")) {
+    return (
+      <>
+        <Text style={[styles.heading, styles.detail]}>{text}</Text>
+        <Text style={styles.subtitle}>{subtitle}</Text>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <Text style={[styles.heading, styles.screen]}>{text}</Text>
+      </>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
   heading: {
-    fontSize: 20,
-    color: colors.covidRed,
-    alignSelf: "center",
     fontWeight: "bold",
     textTransform: "uppercase",
   },
+  screen: { fontSize: 20, color: colors.covidRed, alignSelf: "center" },
+  detail: { fontSize: 70, color: colors.black, marginLeft: 30 },
+  subtitle: { fontSize: 20, marginLeft: 30, textTransform: "capitalize" },
 });

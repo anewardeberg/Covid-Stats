@@ -38,7 +38,8 @@ export default function List() {
         style={{
           paddingVertical: 20,
           paddingHorizontal: 100,
-          backgroundColor: colors.covidRed,
+          backgroundColor: colors.white,
+          borderRadius: 15,
         }}
       >
         <Text>No countries to show</Text>
@@ -61,7 +62,7 @@ export default function List() {
       <View style={styles.container}>
         <FlatList
           renderItem={renderItem}
-          data={countriesArray}
+          data={[]}
           keyExtractor={(item) => item._id}
           ListEmptyComponent={ListEmptyComponent}
         />
