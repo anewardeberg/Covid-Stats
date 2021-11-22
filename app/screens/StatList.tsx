@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { FlatList, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { RootStackParamList } from "../../App";
 import CovidApi from "../../CovidApi";
+import CovidList from "../components/CovidList";
 import Heading from "../components/Heading";
 import List from "../components/List";
 import ListItem from "../components/ListItem";
@@ -22,7 +23,7 @@ export default function StatList(
   const [recovered, setRecovered] = useState(0);
 
   async function getCovidStats() {
-    const allCovidData = await CovidApi.getAllCovidStats();
+    const allCovidData = await CovidApi.getGlobalCovidStats();
     const covidDataCountry = await CovidApi.getCovidStatForCountry(250);
     setCases(allCovidData.cases);
     setDeaths(allCovidData.deaths);
@@ -36,7 +37,7 @@ export default function StatList(
       <View style={styles.innerContainer}>
         <Heading text="world statistics" type="screen" />
         <Statistics cases={cases} deaths={deaths} recovered={recovered} />
-        <List />
+        <CovidList />
       </View>
     </SafeAreaView>
   );

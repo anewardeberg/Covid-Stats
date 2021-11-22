@@ -7,7 +7,7 @@ import { RootStackParamList } from "../../App";
 import CovidApi from "../../CovidApi";
 
 async function getCovidStats() {
-  const allCovidData = await CovidApi.getAllCovidStats();
+  const allCovidData = await CovidApi.getGlobalCovidStats();
 }
 
 export default function Landing({

@@ -1,18 +1,23 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import colors from "../config/colors";
+import Flag from "./Flag";
 
 type Props = {
+  num: number;
   title: string;
-  subtitle: string;
+  flagUri: string;
 };
 
-export default function ListItem({ title, subtitle }: Props) {
+export default function ListItem({ num, title, flagUri }: Props) {
   return (
     <View style={[styles.row, styles.container]}>
-      <View>
-        <Text style={[styles.text, styles.title]}>{title}</Text>
-        <Text style={[styles.text]}>{subtitle}</Text>
+      <View style={styles.countryContainer}>
+        <Text style={styles.number}>{num.toString()}</Text>
+        <Text style={[styles.text]}>{title}</Text>
+        <View style={styles.flagContainer}>
+          <Flag uri={flagUri} type={"icon"} />
+        </View>
       </View>
     </View>
   );
@@ -20,12 +25,31 @@ export default function ListItem({ title, subtitle }: Props) {
 
 const styles = StyleSheet.create({
   row: { flexDirection: "row" },
-  container: { margin: 10, backgroundColor: colors.white },
-  title: { fontWeight: "600" },
+  container: {
+    margin: 10,
+    borderRadius: 10,
+    backgroundColor: colors.white,
+    padding: 10,
+  },
+  countryContainer: {
+    width: 370,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  number: {
+    fontSize: 24,
+    flex: 0.5,
+  },
   text: {
+    textAlignVertical: "center",
+    flex: 10,
     color: colors.black,
-    textTransform: "capitalize",
+    textTransform: "uppercase",
     marginLeft: 10,
-    fontSize: 16,
+    fontSize: 18,
+  },
+  flagContainer: {
+    justifyContent: "center",
+    flex: 1,
   },
 });
