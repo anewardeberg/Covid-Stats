@@ -50,10 +50,8 @@ export default function CompareData({ title, number1, number2 }: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.white,
-    width: 350,
-    height: 200,
     alignSelf: "center",
+    margin: 10,
   },
   titleText: {
     fontSize: 18,

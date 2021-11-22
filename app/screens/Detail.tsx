@@ -37,7 +37,7 @@ export default function Detail(
     <View style={styles.container}>
       <Heading text={countryCode} subtitle={countryName} type="detail" />
       <Statistics cases={cases} deaths={deaths} recovered={recovered} />
-      <Flag uri={flagUri} />
+      <Flag uri={flagUri} type="detail" />
     </View>
   );
 }
