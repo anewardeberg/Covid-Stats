@@ -29,9 +29,9 @@ export default class CovidList extends Component {
         <FlatList
           data={this.state.data}
           keyExtractor={(x, i) => i.toString()}
-          renderItem={({ item }) => (
+          renderItem={({ item, index }) => (
             <ListItem
-              num={1}
+              num={index + 1}
               title={item.country}
               flagUri={item.countryInfo.flag}
             />
