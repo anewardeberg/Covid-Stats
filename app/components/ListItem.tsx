@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import colors from "../config/colors";
 import Flag from "./Flag";
 
@@ -11,7 +11,10 @@ type Props = {
 
 export default function ListItem({ num, title, flagUri }: Props) {
   return (
-    <View style={[styles.row, styles.container]}>
+    <TouchableOpacity
+      onPress={() => alert(title)}
+      style={[styles.row, styles.container]}
+    >
       <View style={styles.countryContainer}>
         <Text style={styles.number}>{num.toString()}</Text>
         <Text style={[styles.text]}>{title}</Text>
@@ -19,7 +22,7 @@ export default function ListItem({ num, title, flagUri }: Props) {
           <Flag uri={flagUri} type={"icon"} />
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 
