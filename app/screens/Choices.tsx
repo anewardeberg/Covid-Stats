@@ -21,7 +21,7 @@ export default function Choices({
           type="primary"
         />
         <Button
-          onPress={() => alert("hej")}
+          onPress={() => navigation.navigate("Search")}
           title="search"
           icon="jeehh"
           type="primary"

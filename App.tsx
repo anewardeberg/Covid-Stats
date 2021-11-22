@@ -5,11 +5,13 @@ import Choices from "./app/screens/Choices";
 import Landing from "./app/screens/Landing";
 import StatList from "./app/screens/StatList";
 import Detail from "./app/screens/Detail";
+import Search from "./app/screens/Search";
 export type RootStackParamList = {
   Landing: undefined;
   Choices: undefined;
   StatList: undefined;
   Detail: undefined;
+  Search: undefined;
 };
 
 export default function App() {
@@ -21,6 +23,7 @@ export default function App() {
         <Stack.Screen name="Choices" component={Choices}></Stack.Screen>
         <Stack.Screen name="StatList" component={StatList}></Stack.Screen>
         <Stack.Screen name="Detail" component={Detail}></Stack.Screen>
+        <Stack.Screen name="Search" component={Search}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );

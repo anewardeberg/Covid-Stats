@@ -16,20 +16,23 @@ export default function Detail(
   { loading }: Props
 ) {
   const [cases, setCases] = useState(0);
+  const [countryName, setCountryName] = useState("");
+  const [countryCode, setCountryCode] = useState("");
   const [deaths, setDeaths] = useState(0);
   const [recovered, setRecovered] = useState(0);
 
   async function getCovidStats() {
-    const countryCovidStats = await CovidApi.getCovidStatForCountry("NOR");
+    const countryCovidStats = await CovidApi.getCovidStatForCountry("norway");
+    setCountryName(countryCovidStats.country);
+    setCountryCode(countryCovidStats.countryInfo.iso3);
     setCases(countryCovidStats.cases);
     setDeaths(countryCovidStats.deaths);
     setRecovered(countryCovidStats.recovered);
-    console.log(countryCovidStats.country);
   }
   getCovidStats();
   return (
     <View style={styles.container}>
-      <Heading text="NOR" subtitle="Norway" type="detail" />
+      <Heading text={countryCode} subtitle={countryName} type="detail" />
       <Statistics cases={cases} deaths={deaths} recovered={recovered} />
     </View>
   );

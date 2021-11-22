@@ -8,7 +8,7 @@ type Props = {
   type: "screen" | "detail";
 };
 export default function Heading({ text, subtitle, type }: Props) {
-  if ((type = "detail")) {
+  if (type == "detail") {
     return (
       <>
         <Text style={[styles.heading, styles.detail]}>{text}</Text>
@@ -29,7 +29,19 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textTransform: "uppercase",
   },
-  screen: { fontSize: 20, color: colors.covidRed, alignSelf: "center" },
-  detail: { fontSize: 70, color: colors.black, marginLeft: 30 },
-  subtitle: { fontSize: 20, marginLeft: 30, textTransform: "capitalize" },
+  screen: {
+    fontSize: 20,
+    color: colors.covidRed,
+    alignSelf: "center",
+  },
+  detail: {
+    fontSize: 70,
+    color: colors.black,
+    marginLeft: 10,
+  },
+  subtitle: {
+    fontSize: 20,
+    marginLeft: 10,
+    textTransform: "capitalize",
+  },
 });
