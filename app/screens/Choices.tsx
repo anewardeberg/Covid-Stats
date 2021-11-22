@@ -27,7 +27,7 @@ export default function Choices({
           type="primary"
         />
         <Button
-          onPress={() => alert("hej")}
+          onPress={() => navigation.navigate("Compare")}
           title="compare"
           icon="jeehh"
           type="primary"

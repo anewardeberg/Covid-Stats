@@ -30,7 +30,8 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
   screen: {
-    fontSize: 20,
+    fontSize: 40,
+    marginTop: 50,
     color: colors.covidRed,
     alignSelf: "center",
   },

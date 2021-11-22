@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { RootStackParamList } from "../../App";
 import CovidApi from "../../CovidApi";
+import Flag from "../components/Flag";
 import Heading from "../components/Heading";
 import Statistics from "../components/Statistics";
 import colors from "../config/colors";
@@ -16,6 +17,7 @@ export default function Detail(
   { loading }: Props
 ) {
   const [cases, setCases] = useState(0);
+  const [flagUri, setFlagUri] = useState("");
   const [countryName, setCountryName] = useState("");
   const [countryCode, setCountryCode] = useState("");
   const [deaths, setDeaths] = useState(0);
@@ -28,12 +30,14 @@ export default function Detail(
     setCases(countryCovidStats.cases);
     setDeaths(countryCovidStats.deaths);
     setRecovered(countryCovidStats.recovered);
+    setFlagUri(countryCovidStats.countryInfo.flag);
   }
   getCovidStats();
   return (
     <View style={styles.container}>
       <Heading text={countryCode} subtitle={countryName} type="detail" />
       <Statistics cases={cases} deaths={deaths} recovered={recovered} />
+      <Flag uri={flagUri} />
     </View>
   );
 }
