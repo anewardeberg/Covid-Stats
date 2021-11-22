@@ -23,7 +23,57 @@ const getCovidStatForCountry = async (country: string | number ) => {
     }
 }
 
+const getCovidStatForMultipleCountries = async (countries: string | number ) => {
+    try {
+        const result = await Axios.get(
+            `countries/${countries}`
+        )
+        return result.data
+    } catch (error) {
+        throw `Error fetching Covid stats for ${countries}: ${error}`
+    }
+}
+
+const getGlobalVaccineCoverage = async () => {
+    try {
+        const result = await Axios.get(
+            `vaccine/coverage`
+        )
+        return result.data
+    } catch (error) {
+        throw `Error fetching Covid vaccine stats: ${error}`
+    }
+}
+
+const getGlobalVaccineCoveragePeriod = async (lastDays: number) => {
+    try {
+        const result = await Axios.get(
+            `vaccine/coverage/?lastdays=${lastDays}`
+        )
+        return result.data
+    } catch (error) {
+        throw `Error fetching Covid vaccine stats: ${error}`
+    }
+}
+
+const getVaccineCoverageForCountry = async (country: number | string) => {
+    try {
+        const result = await Axios.get(
+            `vaccine/coverage/countries/${country}`
+        )
+        return result.data
+    } catch (error) {
+        throw `Error fetching Covid vaccine stats for ${country}: ${error}`
+    }
+}
+
+
+
 export default {
     getAllCovidStats,
     getCovidStatForCountry,
+    getCovidStatForMultipleCountries,
+    getGlobalVaccineCoverage,
+    getGlobalVaccineCoveragePeriod,
+    getVaccineCoverageForCountry,
 }
