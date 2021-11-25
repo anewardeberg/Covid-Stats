@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   navigationButtonContainer: {
     backgroundColor: colors.white,
     width: 60,
-    height: 50,
+    height: 45,
     borderRadius: 15,
     paddingVertical: 5,
     paddingHorizontal: 5,
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   navigationButtonIcon: {
-    margin: 5,
+    marginTop: 3,
     width: 30,
     height: 30,
     backgroundColor: colors.covidRed,

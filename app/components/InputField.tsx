@@ -20,10 +20,10 @@ export default function InputField() {
 const styles = StyleSheet.create({
   input: {
     width: 300,
+    marginRight: 10,
     borderRadius: 10,
     textAlign: "center",
-    height: 40,
-    margin: 12,
+    height: 45,
     backgroundColor: colors.white,
     padding: 10,
   },

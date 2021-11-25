@@ -24,7 +24,7 @@ export default function Compare({
   }, []);
   const [country1, setCountry1] = useState({
     name: "",
-    flag: "",
+    flag: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Missing_flag.png",
     population: 1,
     cases: 1,
     tests: 1,
@@ -37,7 +37,7 @@ export default function Compare({
   });
   const [country2, setCountry2] = useState({
     name: "",
-    flag: "",
+    flag: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Missing_flag.png",
     population: 1,
     cases: 1,
     tests: 1,
@@ -52,7 +52,7 @@ export default function Compare({
 
   async function getCovidStatsCountry1() {
     setLoading(true);
-    const country1CovidStats = await CovidApi.getCovidStatForCountry("germany");
+    const country1CovidStats = await CovidApi.getCovidStatForCountry("italy");
     setCountry1({
       name: country1CovidStats.country,
       flag: country1CovidStats.countryInfo.flag,
@@ -71,7 +71,7 @@ export default function Compare({
 
   async function getCovidStatsCountry2() {
     setLoading(true);
-    const country2CovidStats = await CovidApi.getCovidStatForCountry("mexico");
+    const country2CovidStats = await CovidApi.getCovidStatForCountry("norway");
     setCountry2({
       name: country2CovidStats.country,
       flag: country2CovidStats.countryInfo.flag,
