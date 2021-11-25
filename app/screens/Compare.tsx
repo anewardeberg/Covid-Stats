@@ -1,12 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
-import {
-  ScrollView,
-  ScrollViewBase,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { ScrollView, StyleSheet, TextInput, View } from "react-native";
 import { RootStackParamList } from "../../App";
 import CovidApi from "../../CovidApi";
 import CompareData from "../components/CompareData";
@@ -19,9 +13,11 @@ export default function Compare({
   navigation,
 }: NativeStackScreenProps<RootStackParamList, "Compare">) {
   useEffect(() => {
-    getCovidStatsCountry1();
-    getCovidStatsCountry2();
+    getCovidStatsCountry1(text1);
+    getCovidStatsCountry2(text2);
   }, []);
+  const [text1, onChangeText1] = useState("italy");
+  const [text2, onChangeText2] = useState("norway");
   const [country1, setCountry1] = useState({
     name: "",
     flag: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Missing_flag.png",
@@ -50,9 +46,9 @@ export default function Compare({
   });
   const [loading, setLoading] = useState(true);
 
-  async function getCovidStatsCountry1() {
+  async function getCovidStatsCountry1(text1: string) {
     setLoading(true);
-    const country1CovidStats = await CovidApi.getCovidStatForCountry("italy");
+    const country1CovidStats = await CovidApi.getCovidStatForCountry(text1);
     setCountry1({
       name: country1CovidStats.country,
       flag: country1CovidStats.countryInfo.flag,
@@ -69,9 +65,9 @@ export default function Compare({
     setLoading(false);
   }
 
-  async function getCovidStatsCountry2() {
+  async function getCovidStatsCountry2(text2: string) {
     setLoading(true);
-    const country2CovidStats = await CovidApi.getCovidStatForCountry("norway");
+    const country2CovidStats = await CovidApi.getCovidStatForCountry(text2);
     setCountry2({
       name: country2CovidStats.country,
       flag: country2CovidStats.countryInfo.flag,
@@ -91,13 +87,25 @@ export default function Compare({
   return (
     <View style={styles.container}>
       <Heading text="Compare" type="screen" />
-      <Button
-        onPress={() => {
-          getCovidStatsCountry1(), getCovidStatsCountry2();
-        }}
-        type="navigation"
-        icon="jeehh"
-      />
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="COUNTRY 1"
+          onChangeText={onChangeText1}
+        />
+        <Button
+          onPress={() => {
+            getCovidStatsCountry1(text1), getCovidStatsCountry2(text2);
+          }}
+          type="navigation"
+          icon="jeehh"
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="COUNTRY 2"
+          onChangeText={onChangeText2}
+        />
+      </View>
       <View style={styles.flagContainer}>
         <Flag uri={country1.flag} type="icon" />
         <Flag uri={country2.flag} type="icon" />
@@ -158,6 +166,18 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     backgroundColor: colors.backgroundBlue,
+  },
+  inputContainer: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+  },
+  input: {
+    width: 150,
+    borderRadius: 10,
+    textAlign: "center",
+    height: 45,
+    backgroundColor: colors.white,
+    padding: 10,
   },
   scrollView: {
     backgroundColor: colors.covidRed,
