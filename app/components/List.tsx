@@ -51,7 +51,9 @@ export default function List({ listType }: Props) {
         <FlatList
           data={data}
           keyExtractor={(x, i) => i.toString()}
-          renderItem={({ item, index }) => <ListItem title={item.country} />}
+          renderItem={({ item, index }) => (
+            <ListItem title={item.country} pageType={listType} />
+          )}
         />
       </View>
     );
