@@ -95,7 +95,8 @@ export default function Compare({
         />
         <Button
           onPress={() => {
-            getCovidStatsCountry1(text1), getCovidStatsCountry2(text2);
+            getCovidStatsCountry1(text1.toLowerCase()),
+              getCovidStatsCountry2(text2.toLowerCase());
           }}
           type="navigation"
           icon="jeehh"
