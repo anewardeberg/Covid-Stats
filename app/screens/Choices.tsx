@@ -35,12 +35,6 @@ export default function Choices({
           icon="jeehh"
           type="primary"
         />
-        <Button
-          onPress={() => navigation.navigate("Detail", { country: "norway" })}
-          title="?"
-          icon="jeehh"
-          type="primary"
-        />
       </View>
     </View>
   );

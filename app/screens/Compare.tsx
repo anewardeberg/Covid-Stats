@@ -22,25 +22,69 @@ export default function Compare({
     getCovidStatsCountry1();
     getCovidStatsCountry2();
   }, []);
-  const [country1, setCountry1] = useState({});
-  const [country2, setCountry2] = useState({});
+  const [country1, setCountry1] = useState({
+    name: "",
+    flag: "",
+    population: 1,
+    cases: 1,
+    tests: 1,
+    deaths: 1,
+    recovered: 1,
+    casesPerOneMillion: 1,
+    testsPerOneMillion: 1,
+    deathsPerOneMillion: 1,
+    recoveredPerOneMillion: 1,
+  });
+  const [country2, setCountry2] = useState({
+    name: "",
+    flag: "",
+    population: 1,
+    cases: 1,
+    tests: 1,
+    deaths: 1,
+    recovered: 1,
+    casesPerOneMillion: 1,
+    testsPerOneMillion: 1,
+    deathsPerOneMillion: 1,
+    recoveredPerOneMillion: 1,
+  });
   const [loading, setLoading] = useState(true);
 
   async function getCovidStatsCountry1() {
     setLoading(true);
-    const country1CovidStats = await CovidApi.getCovidStatForCountry("norway");
-    setCountry1(country1CovidStats);
-    console.log(country1);
+    const country1CovidStats = await CovidApi.getCovidStatForCountry("germany");
+    setCountry1({
+      name: country1CovidStats.country,
+      flag: country1CovidStats.countryInfo.flag,
+      population: country1CovidStats.population,
+      cases: country1CovidStats.cases,
+      tests: country1CovidStats.tests,
+      deaths: country1CovidStats.deaths,
+      recovered: country1CovidStats.recovered,
+      casesPerOneMillion: country1CovidStats.casesPerOneMillion,
+      testsPerOneMillion: country1CovidStats.testsPerOneMillion,
+      deathsPerOneMillion: country1CovidStats.deathsPerOneMillion,
+      recoveredPerOneMillion: country1CovidStats.recoveredPerOneMillion,
+    });
     setLoading(false);
   }
 
   async function getCovidStatsCountry2() {
     setLoading(true);
-    const country2CovidStats = await CovidApi.getCovidStatForCountry(
-      "afghanistan"
-    );
-    setCountry2(country2CovidStats);
-    console.log(country2);
+    const country2CovidStats = await CovidApi.getCovidStatForCountry("mexico");
+    setCountry2({
+      name: country2CovidStats.country,
+      flag: country2CovidStats.countryInfo.flag,
+      population: country2CovidStats.population,
+      cases: country2CovidStats.cases,
+      tests: country2CovidStats.tests,
+      deaths: country2CovidStats.deaths,
+      recovered: country2CovidStats.recovered,
+      casesPerOneMillion: country2CovidStats.casesPerOneMillion,
+      testsPerOneMillion: country2CovidStats.testsPerOneMillion,
+      deathsPerOneMillion: country2CovidStats.deathsPerOneMillion,
+      recoveredPerOneMillion: country2CovidStats.recoveredPerOneMillion,
+    });
     setLoading(false);
   }
 
@@ -54,61 +98,57 @@ export default function Compare({
         type="navigation"
         icon="jeehh"
       />
-      <CompareData title="population" number1={10} number2={30} />
-      <CompareData title="population" number1={18} number2={3} />
-      {/* <View style={styles.flagContainer}>
-        <Flag uri={country1.countryInfo.flag} type="icon" />
-        <Flag uri={country2.countryInfo.flag} type="icon" />
-      </View> */}
-      {/* {country1 && country2 && (
-        <ScrollView style={styles.container}>
-          <CompareData
-            title="population"
-            number1={country1.population}
-            number2={country2.population}
-          />
-          <CompareData
-            title="cases"
-            number1={country1.cases}
-            number2={country2.cases}
-          />
-          <CompareData
-            title="tests"
-            number1={country1.tests}
-            number2={country2.tests}
-          />
-          <CompareData
-            title="deaths"
-            number1={country1.deaths}
-            number2={country2.deaths}
-          />
-          <CompareData
-            title="recovered"
-            number1={country1.recovered}
-            number2={country2.recovered}
-          />
-          <CompareData
-            title="cases per million"
-            number1={country1.casesPerOneMillion}
-            number2={country2.casesPerOneMillion}
-          />
-          <CompareData
-            title="tests per million"
-            number1={country1.testsPerOneMillion}
-            number2={country2.testsPerOneMillion}
-          />
-          <CompareData
-            title="deaths per million"
-            number1={country1.deathsPerOneMillion}
-            number2={country2.deathsPerOneMillion}
-          />
-          <CompareData
-            title="recovered per million"
-            number1={country1.recoveredPerOneMillion}
-            number2={country2.recoveredPerOneMillion}
-          />
-        </ScrollView>
-      )} */}
+      <View style={styles.flagContainer}>
+        <Flag uri={country1.flag} type="icon" />
+        <Flag uri={country2.flag} type="icon" />
+      </View>
+      <ScrollView style={styles.container}>
+        <CompareData
+          title="population"
+          number1={country1.population}
+          number2={country2.population}
+        />
+        <CompareData
+          title="cases"
+          number1={country1.cases}
+          number2={country2.cases}
+        />
+        <CompareData
+          title="tests"
+          number1={country1.tests}
+          number2={country2.tests}
+        />
+        <CompareData
+          title="deaths"
+          number1={country1.deaths}
+          number2={country2.deaths}
+        />
+        <CompareData
+          title="recovered"
+          number1={country1.recovered}
+          number2={country2.recovered}
+        />
+        <CompareData
+          title="cases per million"
+          number1={country1.casesPerOneMillion}
+          number2={country2.casesPerOneMillion}
+        />
+        <CompareData
+          title="tests per million"
+          number1={country1.testsPerOneMillion}
+          number2={country2.testsPerOneMillion}
+        />
+        <CompareData
+          title="deaths per million"
+          number1={country1.deathsPerOneMillion}
+          number2={country2.deathsPerOneMillion}
+        />
+        <CompareData
+          title="recovered per million"
+          number1={country1.recoveredPerOneMillion}
+          number2={country2.recoveredPerOneMillion}
+        />
+      </ScrollView>
     </View>
   );
 }
