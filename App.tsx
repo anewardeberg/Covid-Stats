@@ -10,10 +10,11 @@ import Compare from "./app/screens/Compare";
 export type RootStackParamList = {
   Landing: undefined;
   Choices: { pageType: string };
-  StatList: undefined;
-  Detail: undefined;
+  StatList: { pageType: string };
+  Detail: { country: string };
   Search: undefined;
   Compare: undefined;
+  ListItem: undefined;
 };
 
 export default function App() {

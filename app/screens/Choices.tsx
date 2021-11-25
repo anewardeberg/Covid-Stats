@@ -16,7 +16,9 @@ export default function Choices({
       <Heading text={pageType} type="screen" />
       <View style={styles.buttonContainer}>
         <Button
-          onPress={() => navigation.navigate("StatList")}
+          onPress={() =>
+            navigation.navigate("StatList", { pageType: pageType })
+          }
           title="list"
           icon="jeehh"
           type="primary"
@@ -34,7 +36,7 @@ export default function Choices({
           type="primary"
         />
         <Button
-          onPress={() => navigation.navigate("Detail")}
+          onPress={() => navigation.navigate("Detail", { country: "norway" })}
           title="?"
           icon="jeehh"
           type="primary"

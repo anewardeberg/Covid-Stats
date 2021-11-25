@@ -1,5 +1,8 @@
+import { useNavigation } from "@react-navigation/core";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { RootStackParamList } from "../../App";
 import colors from "../config/colors";
 import Flag from "./Flag";
 
@@ -10,9 +13,12 @@ type Props = {
 };
 
 export default function ListItem({ num, title, flagUri }: Props) {
+  const navigation = useNavigation();
   return (
     <TouchableOpacity
-      onPress={() => alert(title)}
+      onPress={() =>
+        navigation.navigate("Detail" as never, { country: title } as never)
+      }
       style={[styles.row, styles.container]}
     >
       <View style={styles.countryContainer}>

@@ -1,0 +1,32 @@
+{
+  "active": 1,
+  "activePerOneMillion": 1,
+  "cases": 1,
+  "casesPerOneMillion": 1,
+  "continent": "Undefined",
+  "country": "Undefined",
+  "countryInfo": {
+    "_id": 0,
+    "flag": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Missing_flag.png",
+    "iso2": "OO",
+    "iso3": "OOO",
+    "lat": 1,
+    "long": 1
+  },
+  "critical": 1,
+  "criticalPerOneMillion": 1,
+  "deaths": 1,
+  "deathsPerOneMillion": 1,
+  "oneCasePerPeople": 1,
+  "oneDeathPerPeople": 1,
+  "oneTestPerPeople": 1,
+  "population": 1,
+  "recovered": 1,
+  "recoveredPerOneMillion": 1,
+  "tests": 1,
+  "testsPerOneMillion": 1,
+  "todayCases": 1,
+  "todayDeaths": 1,
+  "todayRecovered": 1,
+  "updated": 1
+}

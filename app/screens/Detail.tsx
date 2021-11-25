@@ -13,9 +13,10 @@ type Props = {
 };
 
 export default function Detail(
-  { navigation }: NativeStackScreenProps<RootStackParamList, "Detail">,
+  { navigation, route }: NativeStackScreenProps<RootStackParamList, "Detail">,
   { loading }: Props
 ) {
+  const { country } = route.params;
   const [cases, setCases] = useState(0);
   const [flagUri, setFlagUri] = useState("");
   const [countryName, setCountryName] = useState("");
@@ -24,7 +25,7 @@ export default function Detail(
   const [recovered, setRecovered] = useState(0);
 
   async function getCovidStats() {
-    const countryCovidStats = await CovidApi.getCovidStatForCountry("norway");
+    const countryCovidStats = await CovidApi.getCovidStatForCountry(country);
     setCountryName(countryCovidStats.country);
     setCountryCode(countryCovidStats.countryInfo.iso3);
     setCases(countryCovidStats.cases);
