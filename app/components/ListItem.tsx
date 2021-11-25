@@ -7,25 +7,29 @@ import colors from "../config/colors";
 import Flag from "./Flag";
 
 type Props = {
-  num: number;
+  num?: number;
   title: string;
-  flagUri: string;
+  flagUri?: string;
+  pageType: string;
 };
 
-export default function ListItem({ num, title, flagUri }: Props) {
+export default function ListItem({ num, title, flagUri, pageType }: Props) {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
       onPress={() =>
-        navigation.navigate("Detail" as never, { country: title } as never)
+        navigation.navigate(
+          "Detail" as never,
+          { country: title, pageType: pageType } as never
+        )
       }
       style={[styles.row, styles.container]}
     >
       <View style={styles.countryContainer}>
-        <Text style={styles.number}>{num.toString()}</Text>
+        {num && <Text style={styles.number}>{num.toString()}</Text>}
         <Text style={[styles.text]}>{title}</Text>
         <View style={styles.flagContainer}>
-          <Flag uri={flagUri} type={"icon"} />
+          {flagUri && <Flag uri={flagUri} type={"icon"} />}
         </View>
       </View>
     </TouchableOpacity>

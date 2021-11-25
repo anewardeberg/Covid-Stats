@@ -35,13 +35,22 @@ export default function Detail(
     setFlagUri(countryCovidStats.countryInfo.flag);
   }
   getCovidStats();
-  return (
-    <View style={styles.container}>
-      <Heading text={countryCode} subtitle={countryName} type="detail" />
-      <Statistics cases={cases} deaths={deaths} recovered={recovered} />
-      <Flag uri={flagUri} type="detail" />
-    </View>
-  );
+  if (pageType == "infections") {
+    return (
+      <View style={styles.container}>
+        <Heading text={countryCode} subtitle={countryName} type="detail" />
+        <Statistics cases={cases} deaths={deaths} recovered={recovered} />
+        <Flag uri={flagUri} type="detail" />
+      </View>
+    );
+  } else {
+    return (
+      <View style={styles.container}>
+        <Heading text={countryCode} subtitle={countryName} type="detail" />
+        <Flag uri={flagUri} type="detail" />
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({

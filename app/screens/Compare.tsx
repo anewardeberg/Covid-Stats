@@ -11,11 +11,13 @@ import colors from "../config/colors";
 
 export default function Compare({
   navigation,
+  route,
 }: NativeStackScreenProps<RootStackParamList, "Compare">) {
   useEffect(() => {
     getCovidStatsCountry1(text1);
     getCovidStatsCountry2(text2);
   }, []);
+  const { pageType } = route.params;
   const [text1, onChangeText1] = useState("italy");
   const [text2, onChangeText2] = useState("norway");
   const [country1, setCountry1] = useState({
@@ -84,82 +86,109 @@ export default function Compare({
     setLoading(false);
   }
 
-  return (
-    <View style={styles.container}>
-      <Heading text="Compare" type="screen" />
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="COUNTRY 1"
-          onChangeText={onChangeText1}
-        />
-        <Button
-          onPress={() => {
-            getCovidStatsCountry1(text1.toLowerCase()),
-              getCovidStatsCountry2(text2.toLowerCase());
-          }}
-          type="navigation"
-          icon="compare"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="COUNTRY 2"
-          onChangeText={onChangeText2}
-        />
+  if (pageType == "infections") {
+    return (
+      <View style={styles.container}>
+        <Heading text="Compare" type="screen" />
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="COUNTRY 1"
+            onChangeText={onChangeText1}
+          />
+          <Button
+            onPress={() => {
+              getCovidStatsCountry1(text1.toLowerCase()),
+                getCovidStatsCountry2(text2.toLowerCase());
+            }}
+            type="navigation"
+            icon="compare"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="COUNTRY 2"
+            onChangeText={onChangeText2}
+          />
+        </View>
+        <View style={styles.flagContainer}>
+          <Flag uri={country1.flag} type="icon" />
+          <Flag uri={country2.flag} type="icon" />
+        </View>
+        <ScrollView style={styles.container}>
+          <CompareData
+            title="population"
+            number1={country1.population}
+            number2={country2.population}
+          />
+          <CompareData
+            title="cases"
+            number1={country1.cases}
+            number2={country2.cases}
+          />
+          <CompareData
+            title="tests"
+            number1={country1.tests}
+            number2={country2.tests}
+          />
+          <CompareData
+            title="deaths"
+            number1={country1.deaths}
+            number2={country2.deaths}
+          />
+          <CompareData
+            title="recovered"
+            number1={country1.recovered}
+            number2={country2.recovered}
+          />
+          <CompareData
+            title="cases per million"
+            number1={country1.casesPerOneMillion}
+            number2={country2.casesPerOneMillion}
+          />
+          <CompareData
+            title="tests per million"
+            number1={country1.testsPerOneMillion}
+            number2={country2.testsPerOneMillion}
+          />
+          <CompareData
+            title="deaths per million"
+            number1={country1.deathsPerOneMillion}
+            number2={country2.deathsPerOneMillion}
+          />
+          <CompareData
+            title="recovered per million"
+            number1={country1.recoveredPerOneMillion}
+            number2={country2.recoveredPerOneMillion}
+          />
+        </ScrollView>
       </View>
-      <View style={styles.flagContainer}>
-        <Flag uri={country1.flag} type="icon" />
-        <Flag uri={country2.flag} type="icon" />
+    );
+  } else {
+    return (
+      <View style={styles.container}>
+        <Heading text="Compare" type="screen" />
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="COUNTRY 1"
+            onChangeText={onChangeText1}
+          />
+          <Button
+            onPress={() => {
+              alert("Functionality coming soon.");
+            }}
+            type="navigation"
+            icon="compare"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="COUNTRY 2"
+            onChangeText={onChangeText2}
+          />
+        </View>
       </View>
-      <ScrollView style={styles.container}>
-        <CompareData
-          title="population"
-          number1={country1.population}
-          number2={country2.population}
-        />
-        <CompareData
-          title="cases"
-          number1={country1.cases}
-          number2={country2.cases}
-        />
-        <CompareData
-          title="tests"
-          number1={country1.tests}
-          number2={country2.tests}
-        />
-        <CompareData
-          title="deaths"
-          number1={country1.deaths}
-          number2={country2.deaths}
-        />
-        <CompareData
-          title="recovered"
-          number1={country1.recovered}
-          number2={country2.recovered}
-        />
-        <CompareData
-          title="cases per million"
-          number1={country1.casesPerOneMillion}
-          number2={country2.casesPerOneMillion}
-        />
-        <CompareData
-          title="tests per million"
-          number1={country1.testsPerOneMillion}
-          number2={country2.testsPerOneMillion}
-        />
-        <CompareData
-          title="deaths per million"
-          number1={country1.deathsPerOneMillion}
-          number2={country2.deathsPerOneMillion}
-        />
-        <CompareData
-          title="recovered per million"
-          number1={country1.recoveredPerOneMillion}
-          number2={country2.recoveredPerOneMillion}
-        />
-      </ScrollView>
-    </View>
-  );
+    );
+  }
 }
 
 const styles = StyleSheet.create({

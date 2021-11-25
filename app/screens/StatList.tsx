@@ -5,6 +5,7 @@ import { RootStackParamList } from "../../App";
 import CovidApi from "../../CovidApi";
 import CovidList from "../components/CovidList";
 import Heading from "../components/Heading";
+import List from "../components/List";
 import Statistics from "../components/Statistics";
 import colors from "../config/colors";
 
@@ -13,9 +14,11 @@ type Props = {
 };
 
 export default function StatList(
-  { navigation }: NativeStackScreenProps<RootStackParamList, "StatList">,
+  { navigation, route }: NativeStackScreenProps<RootStackParamList, "StatList">,
   { loading }: Props
 ) {
+  const { pageType } = route.params;
+  var listType = "";
   const [cases, setCases] = useState(0);
   const [deaths, setDeaths] = useState(0);
   const [recovered, setRecovered] = useState(0);
@@ -30,15 +33,26 @@ export default function StatList(
   }
 
   getCovidStats();
-  return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.innerContainer}>
-        <Heading text="world statistics" type="screen" />
-        <Statistics cases={cases} deaths={deaths} recovered={recovered} />
-        <CovidList />
-      </View>
-    </SafeAreaView>
-  );
+  if (pageType == "infections") {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.innerContainer}>
+          <Heading text="world statistics" type="screen" />
+          <Statistics cases={cases} deaths={deaths} recovered={recovered} />
+          <List listType="infections" />
+        </View>
+      </SafeAreaView>
+    );
+  } else {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.innerContainer}>
+          <Heading text="world statistics" type="screen" />
+          <List listType="vaccine" />
+        </View>
+      </SafeAreaView>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
