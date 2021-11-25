@@ -54,11 +54,13 @@ export default function Compare({
         type="navigation"
         icon="jeehh"
       />
-      <View style={styles.flagContainer}>
+      <CompareData title="population" number1={10} number2={30} />
+      <CompareData title="population" number1={18} number2={3} />
+      {/* <View style={styles.flagContainer}>
         <Flag uri={country1.countryInfo.flag} type="icon" />
         <Flag uri={country2.countryInfo.flag} type="icon" />
-      </View>
-      {country1 && country2 && (
+      </View> */}
+      {/* {country1 && country2 && (
         <ScrollView style={styles.container}>
           <CompareData
             title="population"
@@ -106,7 +108,7 @@ export default function Compare({
             number2={country2.recoveredPerOneMillion}
           />
         </ScrollView>
-      )}
+      )} */}
     </View>
   );
 }
