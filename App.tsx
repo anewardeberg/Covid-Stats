@@ -9,7 +9,7 @@ import Search from "./app/screens/Search";
 import Compare from "./app/screens/Compare";
 export type RootStackParamList = {
   Landing: undefined;
-  Choices: undefined;
+  Choices: { pageType: string };
   StatList: undefined;
   Detail: undefined;
   Search: undefined;

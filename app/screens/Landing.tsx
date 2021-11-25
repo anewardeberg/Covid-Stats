@@ -18,16 +18,17 @@ export default function Landing({
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
         <Button
-          onPress={() => navigation.navigate("Choices")}
+          onPress={() =>
+            navigation.navigate("Choices", { pageType: "infections" })
+          }
           title="infections"
           icon="jeehh"
           type="primary"
         />
         <Button
-          onPress={() => {
-            getCovidStats();
-            console.log("hei");
-          }}
+          onPress={() =>
+            navigation.navigate("Choices", { pageType: "vaccine" })
+          }
           title="vaccine"
           icon="jeehh"
           type="primary"

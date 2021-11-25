@@ -5,8 +5,6 @@ import { RootStackParamList } from "../../App";
 import CovidApi from "../../CovidApi";
 import CovidList from "../components/CovidList";
 import Heading from "../components/Heading";
-import List from "../components/List";
-import ListItem from "../components/ListItem";
 import Statistics from "../components/Statistics";
 import colors from "../config/colors";
 

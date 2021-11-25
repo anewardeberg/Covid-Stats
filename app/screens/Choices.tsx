@@ -8,8 +8,9 @@ import colors from "../config/colors";
 
 export default function Choices({
   navigation,
+  route,
 }: NativeStackScreenProps<RootStackParamList, "Choices">) {
-  const [pageType, setPageType] = useState("infections");
+  const { pageType } = route.params;
   return (
     <View style={styles.container}>
       <Heading text={pageType} type="screen" />
