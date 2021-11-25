@@ -2,6 +2,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import { RootStackParamList } from "../../App";
+import CovidApi from "../../CovidApi";
 import Button from "../components/Exports";
 import InputField from "../components/InputField";
 import colors from "../config/colors";
@@ -10,6 +11,17 @@ export default function Search({
   navigation,
 }: NativeStackScreenProps<RootStackParamList, "Search">) {
   const [text, onChangeText] = useState("");
+  const [response, setResponse] = useState({});
+
+  async function checkInput() {
+    const countryCovidStats = await CovidApi.getCovidStatForCountry(text);
+    setResponse(countryCovidStats);
+    if (response == "message") {
+      styles.error.opacity = 1;
+    } else {
+      navigation.navigate("Detail", { country: text.toLowerCase() });
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -20,14 +32,11 @@ export default function Search({
           value={text}
           placeholder="Search for country..."
         />
-        <Button
-          onPress={() =>
-            navigation.navigate("Detail", { country: text.toLowerCase() })
-          }
-          type="navigation"
-          icon=""
-        />
+        <Button onPress={() => checkInput()} type="navigation" icon="" />
       </View>
+      <Text style={styles.error}>
+        Could not find country "{text}". Please try again
+      </Text>
     </View>
   );
 }
@@ -51,5 +60,8 @@ const styles = StyleSheet.create({
     height: 45,
     backgroundColor: colors.white,
     padding: 10,
+  },
+  error: {
+    opacity: 0,
   },
 });
