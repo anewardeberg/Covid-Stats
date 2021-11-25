@@ -20,19 +20,19 @@ export default function Choices({
             navigation.navigate("StatList", { pageType: pageType })
           }
           title="list"
-          icon="jeehh"
+          icon="list"
           type="primary"
         />
         <Button
-          onPress={() => navigation.navigate("Search")}
+          onPress={() => navigation.navigate("Search", { pageType: pageType })}
           title="search"
-          icon="jeehh"
+          icon="search"
           type="primary"
         />
         <Button
-          onPress={() => navigation.navigate("Compare")}
+          onPress={() => navigation.navigate("Compare", { pageType: pageType })}
           title="compare"
-          icon="jeehh"
+          icon="compare"
           type="primary"
         />
       </View>

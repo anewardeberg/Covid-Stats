@@ -11,10 +11,9 @@ export type RootStackParamList = {
   Landing: undefined;
   Choices: { pageType: string };
   StatList: { pageType: string };
-  Detail: { country: string };
-  Search: undefined;
-  Compare: undefined;
-  ListItem: undefined;
+  Detail: { country: string; pageType: string };
+  Search: { pageType: string };
+  Compare: { pageType: string };
 };
 
 export default function App() {

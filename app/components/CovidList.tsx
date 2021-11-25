@@ -23,6 +23,11 @@ export default class CovidList extends Component {
     this.setState({ data: ascendingCountries });
   };
 
+  fetchVaccineData = async () => {
+    const countriesVaccineData = await CovidApi.getGlobalVaccineCoverage();
+    this.setState({ data: countriesVaccineData });
+  };
+
   render() {
     return (
       <View>

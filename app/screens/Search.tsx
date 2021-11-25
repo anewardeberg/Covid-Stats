@@ -9,7 +9,9 @@ import colors from "../config/colors";
 
 export default function Search({
   navigation,
+  route,
 }: NativeStackScreenProps<RootStackParamList, "Search">) {
+  const { pageType } = route.params;
   const [text, onChangeText] = useState("");
   const [response, setResponse] = useState({});
 
@@ -19,7 +21,10 @@ export default function Search({
     if (response == "message") {
       styles.error.opacity = 1;
     } else {
-      navigation.navigate("Detail", { country: text.toLowerCase() });
+      navigation.navigate("Detail", {
+        country: text.toLowerCase(),
+        pageType: pageType,
+      });
     }
   }
 

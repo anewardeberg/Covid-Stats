@@ -99,7 +99,7 @@ export default function Compare({
               getCovidStatsCountry2(text2.toLowerCase());
           }}
           type="navigation"
-          icon="jeehh"
+          icon="compare"
         />
         <TextInput
           style={styles.input}

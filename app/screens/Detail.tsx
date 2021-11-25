@@ -16,6 +16,7 @@ export default function Detail(
   { navigation, route }: NativeStackScreenProps<RootStackParamList, "Detail">,
   { loading }: Props
 ) {
+  const { pageType } = route.params;
   const { country } = route.params;
   const [cases, setCases] = useState(0);
   const [flagUri, setFlagUri] = useState("");
