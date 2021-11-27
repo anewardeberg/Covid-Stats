@@ -18,7 +18,6 @@ export default function StatList(
   { loading }: Props
 ) {
   const { pageType } = route.params;
-  var listType = "";
   const [cases, setCases] = useState(0);
   const [deaths, setDeaths] = useState(0);
   const [recovered, setRecovered] = useState(0);

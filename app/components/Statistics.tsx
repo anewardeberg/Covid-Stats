@@ -1,28 +1,46 @@
 import React from "react";
-import { Dimensions, StyleSheet, Text, View } from "react-native";
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import colors from "../config/colors";
 
 type Props = {
   cases: number;
   deaths: number;
   recovered: number;
+  onPress?: () => {};
 };
 
-export default function Statistics({ cases, deaths, recovered }: Props) {
+export default function Statistics({
+  cases,
+  deaths,
+  recovered,
+  onPress,
+}: Props) {
   return (
     <View style={styles.container}>
-      <View style={styles.statisticsContainer}>
-        <Text style={styles.headerText}>Cases</Text>
-        <Text style={styles.statsText}>{cases}</Text>
-      </View>
-      <View style={styles.statisticsContainer}>
-        <Text style={styles.headerText}>Deaths</Text>
-        <Text style={styles.statsText}>{deaths}</Text>
-      </View>
-      <View style={styles.statisticsContainer}>
-        <Text style={styles.headerText}>Recovered</Text>
-        <Text style={styles.statsText}>{recovered}</Text>
-      </View>
+      <TouchableOpacity onPress={onPress}>
+        <View style={styles.statisticsContainer}>
+          <Text style={styles.headerText}>Cases</Text>
+          <Text style={styles.statsText}>{cases}</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={onPress}>
+        <View style={styles.statisticsContainer}>
+          <Text style={styles.headerText}>Deaths</Text>
+          <Text style={styles.statsText}>{deaths}</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={onPress}>
+        <View style={styles.statisticsContainer}>
+          <Text style={styles.headerText}>Recovered</Text>
+          <Text style={styles.statsText}>{recovered}</Text>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 }

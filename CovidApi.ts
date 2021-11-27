@@ -45,10 +45,10 @@ const getCovidStatForMultipleCountries = async (countries: string | number ) => 
     }
 }
 
-const getCovidTimeSeriesDataForCountry = async (country: string | number ) => {
+const getCovidTimeSeriesDataForCountry = async (country: string | number, period: string ) => {
     try {
         const result = await Axios.get(
-            `historical/${country}?lastdays=30`
+            `historical/${country}?lastdays=${period}`
         )
         return result.data
     } catch (error) {

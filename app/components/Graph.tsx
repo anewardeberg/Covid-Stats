@@ -9,7 +9,7 @@ type Props = {
 
 export default function Graph({ labels, data }: Props) {
   return (
-    <View>
+    <View style={styles.container}>
       <Text>Cases</Text>
       <LineChart
         data={{
@@ -20,25 +20,24 @@ export default function Graph({ labels, data }: Props) {
             },
           ],
         }}
-        width={Dimensions.get("window").width / 1.1} // from react-native
-        height={220}
-        yAxisLabel="$"
-        yAxisSuffix="k"
-        yAxisInterval={1} // optional, defaults to 1
+        width={Dimensions.get("window").width / 1.05} // from react-native
+        height={250}
+        withDots={false}
+        yAxisInterval={7}
+        formatYLabel={(yValue) => {
+          return yValue.substring(0, yValue.length - 3);
+        }}
+        verticalLabelRotation={45}
         chartConfig={{
           backgroundColor: "#e26a00",
-          backgroundGradientFrom: "#636FDE",
-          backgroundGradientTo: "#636FDE",
+          backgroundGradientFrom: "#fff",
+          backgroundGradientTo: "#fff",
           decimalPlaces: 2, // optional, defaults to 2dp
-          color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-          labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+          color: (opacity = 1) => `rgba(168, 24, 24, ${opacity})`,
+          labelColor: (opacity = 1) => `rgba(168, 24, 24, ${opacity})`,
           style: {
+            padding: 10,
             borderRadius: 16,
-          },
-          propsForDots: {
-            r: "0",
-            strokeWidth: "2",
-            stroke: "#3F4BFF",
           },
         }}
         bezier
@@ -51,4 +50,8 @@ export default function Graph({ labels, data }: Props) {
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    alignSelf: "center",
+  },
+});

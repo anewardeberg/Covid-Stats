@@ -35,11 +35,12 @@ export default function Detail(
 
   async function getCovidTimeSeriesData() {
     const covidTimeSeriesData = await CovidApi.getCovidTimeSeriesDataForCountry(
-      country
+      country,
+      "all"
     );
     // https://github.com/indiespirit/react-native-chart-kit/issues/237
     setLabels({
-      data: Object.keys(covidTimeSeriesData.timeline.cases) as never,
+      data: Object.keys(covidTimeSeriesData.timeline.deaths) as never,
       loading: false,
     });
     setData({
