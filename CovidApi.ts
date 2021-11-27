@@ -45,6 +45,17 @@ const getCovidStatForMultipleCountries = async (countries: string | number ) => 
     }
 }
 
+const getCovidTimeSeriesDataForCountry = async (country: string | number ) => {
+    try {
+        const result = await Axios.get(
+            `historical/${country}?lastdays=30`
+        )
+        return result.data
+    } catch (error) {
+        throw `Error fetching Covid time series data for ${country}: ${error}`
+    }
+} 
+
 const getGlobalVaccineCoverage = async () => {
     try {
         const result = await Axios.get(
@@ -96,6 +107,7 @@ export default {
     getAllCountriesCovidStats,
     getCovidStatForCountry,
     getCovidStatForMultipleCountries,
+    getCovidTimeSeriesDataForCountry,
     getGlobalVaccineCoverage,
     getAllCountriesVaccineStats,
     getGlobalVaccineCoveragePeriod,
