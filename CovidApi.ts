@@ -56,10 +56,10 @@ const getCovidTimeSeriesDataForCountry = async (country: string | number, period
     }
 } 
 
-const getGlobalVaccineCoverage = async () => {
+const getGlobalVaccineCoverage = async (period: string) => {
     try {
         const result = await Axios.get(
-            `vaccine/coverage`
+            `vaccine/coverage?lastdays=${period}`
         )
         return result.data
     } catch (error) {

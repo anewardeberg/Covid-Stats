@@ -1,9 +1,10 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { RootStackParamList } from "../../App";
 import CovidApi from "../../CovidApi";
 import CovidList from "../components/CovidList";
+import Graph from "../components/Graph";
 import Heading from "../components/Heading";
 import List from "../components/List";
 import Statistics from "../components/Statistics";
@@ -21,6 +22,8 @@ export default function StatList(
   const [cases, setCases] = useState(0);
   const [deaths, setDeaths] = useState(0);
   const [recovered, setRecovered] = useState(0);
+  const [labels, setLabels] = useState({ data: [], loading: true });
+  const [data, setData] = useState({ data: [], loading: true });
 
   async function getCovidStats() {
     const allCovidData = await CovidApi.getGlobalCovidStats();
@@ -31,7 +34,22 @@ export default function StatList(
     console.log(covidDataCountry.country);
   }
 
-  getCovidStats();
+  async function getGlobalVaccineHistory() {
+    const vaccineHistory = await CovidApi.getGlobalVaccineCoverage("all");
+    setLabels({
+      data: Object.keys(vaccineHistory) as never,
+      loading: false,
+    });
+    setData({
+      data: Object.values(vaccineHistory),
+      loading: false,
+    });
+  }
+
+  useEffect(() => {
+    getCovidStats();
+    getGlobalVaccineHistory();
+  }, []);
   if (pageType == "infections") {
     return (
       <SafeAreaView style={styles.container}>
@@ -47,6 +65,9 @@ export default function StatList(
       <SafeAreaView style={styles.container}>
         <View style={styles.innerContainer}>
           <Heading text="world statistics" type="screen" />
+          {data.loading ? null : (
+            <Graph labels={labels.data as never} data={data.data as never} />
+          )}
           <List listType="vaccine" />
         </View>
       </SafeAreaView>
