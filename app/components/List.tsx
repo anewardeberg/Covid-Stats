@@ -8,12 +8,6 @@ type Props = {
 };
 
 export default function List({ listType }: Props) {
-  if (listType == "infections") {
-    fetchCovidData();
-  } else if (listType == "vaccine") {
-    fetchVaccineData();
-  }
-
   const [data, setData] = useState([]);
   async function fetchCovidData() {
     const countriesCovidData = await CovidApi.getAllCountriesCovidStats();
@@ -24,8 +18,18 @@ export default function List({ listType }: Props) {
   }
 
   async function fetchVaccineData() {
-    const countriesVaccineData = await CovidApi.getAllCountriesVaccineStats();
-    setData(countriesVaccineData);
+    const countriesVaccineData =
+      await CovidApi.getVaccineCoveragePeriodCountries(1);
+    const ascendingCountries = countriesVaccineData.sort((a, b) => {
+      return b.timeline[0].total - a.timeline[0].total;
+    });
+    setData(ascendingCountries);
+  }
+
+  if (listType == "infections") {
+    fetchCovidData();
+  } else if (listType == "vaccine") {
+    fetchVaccineData();
   }
 
   if (listType == "infections") {
@@ -52,7 +56,11 @@ export default function List({ listType }: Props) {
           data={data}
           keyExtractor={(x, i) => i.toString()}
           renderItem={({ item, index }) => (
-            <ListItem title={item.country} pageType={listType} />
+            <ListItem
+              num={index + 1}
+              title={item.country}
+              pageType={listType}
+            />
           )}
         />
       </View>

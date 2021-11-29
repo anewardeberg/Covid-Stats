@@ -13,10 +13,6 @@ export default function Compare({
   navigation,
   route,
 }: NativeStackScreenProps<RootStackParamList, "Compare">) {
-  useEffect(() => {
-    getCovidStatsCountry1(text1);
-    getCovidStatsCountry2(text2);
-  }, []);
   const { pageType } = route.params;
   const [text1, onChangeText1] = useState("italy");
   const [text2, onChangeText2] = useState("norway");
@@ -48,6 +44,10 @@ export default function Compare({
   });
   const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    getCovidStatsCountry1(text1);
+    getCovidStatsCountry2(text2);
+  }, []);
   async function getCovidStatsCountry1(text1: string) {
     setLoading(true);
     const country1CovidStats = await CovidApi.getCovidStatForCountry(text1);
