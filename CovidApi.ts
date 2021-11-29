@@ -100,10 +100,21 @@ const getVaccineCoveragePeriodCountries = async (lastDays: number) => {
     }
 }
 
-const getVaccineCoverageForCountry = async (country: number | string) => {
+const getVaccineCoverageForCountry = async (country: number | string, period: string) => {
     try {
         const result = await Axios.get(
-            `vaccine/coverage/countries/${country}`
+            `vaccine/coverage/countries/${country}?lastdays=${period}&fullData=false`
+        )
+        return result.data
+    } catch (error) {
+        throw `Error fetching Covid vaccine stats for ${country}: ${error}`
+    }
+}
+
+const getVaccineCoverageForCountryFullData = async (country: number | string, period: string) => {
+    try {
+        const result = await Axios.get(
+            `vaccine/coverage/countries/${country}?lastdays=${period}&fullData=true`
         )
         return result.data
     } catch (error) {
@@ -124,4 +135,5 @@ export default {
     getAllCountriesVaccineStats,
     getGlobalVaccineCoveragePeriod,
     getVaccineCoverageForCountry,
+    getVaccineCoverageForCountryFullData,
 }

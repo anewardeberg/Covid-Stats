@@ -1,6 +1,13 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, TextInput, View } from "react-native";
+import {
+  Dimensions,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+  View,
+} from "react-native";
+import { LineChart } from "react-native-chart-kit";
 import { RootStackParamList } from "../../App";
 import CovidApi from "../../CovidApi";
 import CompareData from "../components/CompareData";
@@ -42,11 +49,24 @@ export default function Compare({
     deathsPerOneMillion: 1,
     recoveredPerOneMillion: 1,
   });
+  const [country1VaccineData, setCountry1VaccineData] = useState({
+    data: [],
+    doses: 1,
+    loading: true,
+  });
+  const [country2VaccineData, setCountry2VaccineData] = useState({
+    data: [],
+    doses: 1,
+    loading: true,
+  });
+  const [period, setPeriod] = useState("30");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getCovidStatsCountry1(text1);
     getCovidStatsCountry2(text2);
+    getVaccineDataCountry1(text1);
+    getVaccineDataCountry2(text2);
   }, []);
   async function getCovidStatsCountry1(text1: string) {
     setLoading(true);
@@ -84,6 +104,38 @@ export default function Compare({
       recoveredPerOneMillion: country2CovidStats.recoveredPerOneMillion,
     });
     setLoading(false);
+  }
+
+  async function getVaccineDataCountry1(text1: string) {
+    const country1VaccineData = await CovidApi.getVaccineCoverageForCountry(
+      text1,
+      period
+    );
+    const country1doses = await CovidApi.getVaccineCoverageForCountryFullData(
+      text1,
+      "1"
+    );
+    setCountry1VaccineData({
+      data: Object.values(country1VaccineData.timeline),
+      doses: country1doses.timeline.total,
+      loading: false,
+    });
+  }
+
+  async function getVaccineDataCountry2(text2: string) {
+    const country2VaccineData = await CovidApi.getVaccineCoverageForCountry(
+      text2,
+      period
+    );
+    const country2doses = await CovidApi.getVaccineCoverageForCountryFullData(
+      text2,
+      "1"
+    );
+    setCountry2VaccineData({
+      data: Object.values(country2VaccineData.timeline),
+      doses: country2doses.timeline.total,
+      loading: false,
+    });
   }
 
   if (pageType == "infections") {
@@ -175,7 +227,8 @@ export default function Compare({
           />
           <Button
             onPress={() => {
-              alert("Functionality coming soon.");
+              getVaccineDataCountry1(text1.toLowerCase()),
+                getVaccineDataCountry2(text2.toLowerCase());
             }}
             type="navigation"
             icon="compare"
@@ -186,6 +239,50 @@ export default function Compare({
             onChangeText={onChangeText2}
           />
         </View>
+        {/* <CompareData
+          title={"Doses administered"}
+          number1={country1VaccineData.doses}
+          number2={country2VaccineData.doses}
+        /> */}
+        {/* https://github.com/indiespirit/react-native-chart-kit/issues/23 */}
+        {country1VaccineData.loading ? null : (
+          <LineChart
+            bezier
+            withDots={false}
+            data={{
+              labels: [" 1", " 2", " 3", " 4", " 5", " 6"],
+              datasets: [
+                {
+                  data: country1VaccineData.data,
+                  strokeWidth: 3,
+                  color: (opacity = 1) => `rgba(78,185,128, ${opacity})`, // optional
+                },
+                {
+                  data: country2VaccineData.data,
+                  strokeWidth: 3,
+                  color: (opacity = 1) => `rgba(78,149,185, ${opacity})`, // optional
+                },
+              ],
+              legend: [text1, text2],
+            }}
+            width={Dimensions.get("window").width - 16}
+            height={200}
+            chartConfig={{
+              backgroundColor: "#1cc910",
+              backgroundGradientFrom: "#eff3ff",
+              backgroundGradientTo: "#efefef",
+              decimalPlaces: 2,
+              color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+              style: {
+                borderRadius: 16,
+              },
+            }}
+            style={{
+              marginVertical: 8,
+              borderRadius: 16,
+            }}
+          />
+        )}
       </View>
     );
   }

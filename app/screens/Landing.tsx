@@ -1,10 +1,11 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
 import Button from "../components/Exports";
 import colors from "../config/colors";
 import { RootStackParamList } from "../../App";
 import CovidApi from "../../CovidApi";
+import { LineChart } from "react-native-chart-kit";
 
 async function getCovidStats() {
   const allCovidData = await CovidApi.getGlobalCovidStats();
