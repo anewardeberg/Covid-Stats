@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { RootStackParamList } from "../../App";
 import CovidApi from "../../CovidApi";
+import Button from "../components/Exports";
 import Flag from "../components/Flag";
 import Graph from "../components/Graph";
 import Heading from "../components/Heading";
@@ -27,16 +28,21 @@ export default function Detail(
   const [recovered, setRecovered] = useState(0);
   const [labels, setLabels] = useState({ data: [], loading: true });
   const [data, setData] = useState({ data: [], loading: true });
+  const [period, setPeriod] = useState("all");
 
   useEffect(() => {
     getCovidStats();
-    getCovidTimeSeriesData();
+    getCovidTimeSeriesData(period);
   }, []);
 
-  async function getCovidTimeSeriesData() {
+  useEffect(() => {
+    getCovidTimeSeriesData(period);
+  }, [period]);
+
+  async function getCovidTimeSeriesData(period: string) {
     const covidTimeSeriesData = await CovidApi.getCovidTimeSeriesDataForCountry(
       country,
-      "all"
+      period
     );
     // https://github.com/indiespirit/react-native-chart-kit/issues/237
     setLabels({
@@ -47,8 +53,6 @@ export default function Detail(
       data: Object.values(covidTimeSeriesData.timeline.cases),
       loading: false,
     });
-    console.log(labels);
-    console.log(data);
   }
 
   async function getCovidStats() {
@@ -65,6 +69,29 @@ export default function Detail(
       <View style={styles.container}>
         <Heading text={countryCode} subtitle={countryName} type="detail" />
         <Statistics cases={cases} deaths={deaths} recovered={recovered} />
+        <View style={styles.timeStampsContainer}>
+          <Button onPress={() => alert("hei")} type="timeStamp" title="All" />
+          <Button
+            onPress={() => setPeriod("365")}
+            type="timeStamp"
+            title="1 year"
+          />
+          <Button
+            onPress={() => setPeriod("90")}
+            type="timeStamp"
+            title="3 months"
+          />
+          <Button
+            onPress={() => setPeriod("30")}
+            type="timeStamp"
+            title="1 month"
+          />
+          <Button
+            onPress={() => setPeriod("7")}
+            type="timeStamp"
+            title="1 week"
+          />
+        </View>
         {data.loading ? null : (
           <Graph labels={labels.data as never} data={data.data as never} />
         )}
@@ -86,5 +113,11 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     backgroundColor: colors.backgroundBlue,
+  },
+  timeStampsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginRight: 10,
+    marginLeft: 10,
   },
 });

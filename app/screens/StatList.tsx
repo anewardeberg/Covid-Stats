@@ -31,7 +31,6 @@ export default function StatList(
     setCases(allCovidData.cases);
     setDeaths(allCovidData.deaths);
     setRecovered(allCovidData.recovered);
-    console.log(covidDataCountry.country);
   }
 
   async function getGlobalVaccineHistory() {

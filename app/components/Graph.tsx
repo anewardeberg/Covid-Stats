@@ -10,7 +10,6 @@ type Props = {
 export default function Graph({ labels, data }: Props) {
   return (
     <View style={styles.container}>
-      <Text>Cases</Text>
       <LineChart
         data={{
           labels: labels,

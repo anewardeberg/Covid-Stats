@@ -12,8 +12,8 @@ import {
 type Props = {
   onPress: (event: GestureResponderEvent) => void;
   title?: string;
-  icon: string;
-  type: "primary" | "navigation";
+  icon?: string;
+  type: "primary" | "navigation" | "timeStamp";
 };
 
 export default function Button({ onPress, title, icon, type }: Props) {
@@ -26,13 +26,19 @@ export default function Button({ onPress, title, icon, type }: Props) {
         <View style={styles.navigationButtonIcon} />
       </TouchableOpacity>
     );
-  } else {
+  } else if (type == "primary") {
     return (
       <TouchableOpacity onPress={onPress} style={styles.primaryButtonContainer}>
         <Image
           style={styles.buttonIcon}
           source={require("../assets/favicon.png")}
         />
+        <Text style={styles.buttonText}>{title}</Text>
+      </TouchableOpacity>
+    );
+  } else {
+    return (
+      <TouchableOpacity onPress={onPress} style={styles.timeButtonContainer}>
         <Text style={styles.buttonText}>{title}</Text>
       </TouchableOpacity>
     );
@@ -57,6 +63,13 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     paddingVertical: 5,
     paddingHorizontal: 5,
+  },
+  timeButtonContainer: {
+    backgroundColor: colors.white,
+    alignSelf: "center",
+    height: 35,
+    borderRadius: 20,
+    padding: 10,
   },
   buttonIcon: {
     width: 30,
