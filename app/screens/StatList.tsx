@@ -33,6 +33,7 @@ export default function StatList(
   const [listData, setListData] = useState([]);
   const [data, setData] = useState({ data: [], loading: true });
   const [pending, setPending] = useState(false);
+  const [sortBy, setSortBy] = useState("cases");
 
   async function getCovidStats() {
     setPending(true);
@@ -44,13 +45,24 @@ export default function StatList(
     setPending(false);
   }
 
-  async function fetchCovidListData() {
+  async function fetchCovidListData(sortBy: string) {
     setPending(true);
     const countriesCovidData = await CovidApi.getAllCountriesCovidStats();
-    const ascendingCountries = countriesCovidData.sort((a, b) => {
-      return b.cases - a.cases;
-    });
-    setListData(ascendingCountries);
+    var countriesList;
+    if (sortBy == "deaths") {
+      countriesList = countriesCovidData.sort((a, b) => {
+        return b.deaths - a.deaths;
+      });
+    } else if (sortBy == "recovered") {
+      countriesList = countriesCovidData.sort((a, b) => {
+        return b.recovered - a.recovered;
+      });
+    } else {
+      countriesList = countriesCovidData.sort((a, b) => {
+        return b.cases - a.cases;
+      });
+    }
+    setListData(countriesList);
     setPending(false);
   }
 
@@ -83,7 +95,7 @@ export default function StatList(
     getCovidStats();
     getGlobalVaccineHistory();
     if (pageType == "infections") {
-      fetchCovidListData();
+      fetchCovidListData("cases");
     } else if (pageType == "vaccine") {
       fetchVaccineListData();
     }
@@ -95,9 +107,21 @@ export default function StatList(
         <View style={styles.innerContainer}>
           <Heading text="world statistics" type="screen" />
           <View style={styles.statisticsContainer}>
-            <Statistics title="cases" amount={cases} />
-            <Statistics title="death" amount={deaths} />
-            <Statistics title="recovered" amount={recovered} />
+            <Statistics
+              title="cases"
+              amount={cases}
+              onPress={() => fetchCovidListData("cases")}
+            />
+            <Statistics
+              title="deaths"
+              amount={deaths}
+              onPress={() => fetchCovidListData("deaths")}
+            />
+            <Statistics
+              title="recovered"
+              amount={recovered}
+              onPress={() => fetchCovidListData("recovered")}
+            />
           </View>
           <List listType="infections" data={listData as never} />
         </View>
