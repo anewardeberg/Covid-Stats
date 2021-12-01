@@ -1,7 +1,13 @@
 import { useNavigation } from "@react-navigation/core";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { RootStackParamList } from "../../App";
 import colors from "../config/colors";
 import Flag from "./Flag";
@@ -63,6 +69,6 @@ const styles = StyleSheet.create({
   },
   flagContainer: {
     justifyContent: "center",
-    flex: 1,
+    flex: Platform.OS === "ios" ? 2 : 1,
   },
 });
