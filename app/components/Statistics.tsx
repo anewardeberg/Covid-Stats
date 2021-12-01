@@ -10,51 +10,23 @@ import {
 import colors from "../config/colors";
 
 type Props = {
-  cases: number;
-  deaths: number;
-  recovered: number;
-  onPress1?: (event: GestureResponderEvent) => void;
-  onPress2?: (event: GestureResponderEvent) => void;
-  onPress3?: (event: GestureResponderEvent) => void;
+  title: string;
+  amount: number;
+  onPress?: (event: GestureResponderEvent) => void;
 };
 
-export default function Statistics({
-  cases,
-  deaths,
-  recovered,
-  onPress1,
-  onPress2,
-  onPress3,
-}: Props) {
+export default function Statistics({ title, amount, onPress }: Props) {
   return (
-    <View style={styles.container}>
-      <TouchableOpacity onPress={onPress1}>
-        <View style={styles.statisticsContainer}>
-          <Text style={styles.headerText}>Cases</Text>
-          <Text style={styles.statsText}>{cases}</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={onPress2}>
-        <View style={styles.statisticsContainer}>
-          <Text style={styles.headerText}>Deaths</Text>
-          <Text style={styles.statsText}>{deaths}</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={onPress3}>
-        <View style={styles.statisticsContainer}>
-          <Text style={styles.headerText}>Recovered</Text>
-          <Text style={styles.statsText}>{recovered}</Text>
-        </View>
-      </TouchableOpacity>
-    </View>
+    <TouchableOpacity onPress={onPress}>
+      <View style={styles.statisticsContainer}>
+        <Text style={styles.headerText}>{title}</Text>
+        <Text style={styles.statsText}>{amount}</Text>
+      </View>
+    </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    width: Dimensions.get("screen").width,
-  },
   statisticsContainer: {
     margin: 9,
     backgroundColor: colors.white,

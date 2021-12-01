@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
 import { RootStackParamList } from "../../App";
 import CovidApi from "../../CovidApi";
 import AppLoader from "../components/AppLoader";
@@ -71,7 +71,11 @@ export default function Detail(
     return (
       <View style={styles.container}>
         <Heading text={countryCode} subtitle={countryName} type="detail" />
-        <Statistics cases={cases.cases} deaths={deaths} recovered={recovered} />
+        <View style={styles.statisticsContainer}>
+          <Statistics title="cases" amount={cases.cases} />
+          <Statistics title="death" amount={deaths} />
+          <Statistics title="recovered" amount={recovered} />
+        </View>
         <View style={styles.timeStampsContainer}>
           <Button
             onPress={() => setPeriod("all")}
@@ -154,6 +158,11 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     backgroundColor: colors.backgroundBlue,
+  },
+  statisticsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: Dimensions.get("screen").width,
   },
   timeStampsContainer: {
     flexDirection: "row",

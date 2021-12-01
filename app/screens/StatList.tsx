@@ -1,10 +1,16 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
-import { FlatList, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import {
+  Dimensions,
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import App, { RootStackParamList } from "../../App";
 import CovidApi from "../../CovidApi";
 import AppLoader from "../components/AppLoader";
-import CovidList from "../components/CovidList";
 import Graph from "../components/Graph";
 import Heading from "../components/Heading";
 import List from "../components/List";
@@ -88,7 +94,11 @@ export default function StatList(
         {pending ? <AppLoader /> : null}
         <View style={styles.innerContainer}>
           <Heading text="world statistics" type="screen" />
-          <Statistics cases={cases} deaths={deaths} recovered={recovered} />
+          <View style={styles.statisticsContainer}>
+            <Statistics title="cases" amount={cases} />
+            <Statistics title="death" amount={deaths} />
+            <Statistics title="recovered" amount={recovered} />
+          </View>
           <List listType="infections" data={listData as never} />
         </View>
         {pending ? <AppLoader /> : null}
@@ -117,6 +127,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.backgroundBlue,
     alignItems: "center",
     justifyContent: "center",
+  },
+  statisticsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: Dimensions.get("screen").width,
   },
   innerContainer: { flex: 1, margin: 20 },
 });
