@@ -30,32 +30,45 @@ export default function Detail(
   const [labels, setLabels] = useState({ data: [], loading: true });
   const [data, setData] = useState({ data: [], loading: true });
   const [period, setPeriod] = useState("all");
-  const [pending, setPending] = useState(false);
+  const [apiType, setApiType] = useState("cases");
 
   useEffect(() => {
     getCovidStats();
-    getCovidTimeSeriesData(period);
+    getCovidTimeSeriesData(period, apiType);
   }, []);
 
   useEffect(() => {
-    getCovidTimeSeriesData(period);
-  }, [period]);
+    getCovidTimeSeriesData(period, apiType);
+  }, [period, apiType]);
 
-  async function getCovidTimeSeriesData(period: string) {
+  async function getCovidTimeSeriesData(period: string, apiType: string) {
     setData({ data: [], loading: true });
+    setApiType(apiType);
     const covidTimeSeriesData = await CovidApi.getCovidTimeSeriesDataForCountry(
       country,
       period
     );
     // https://github.com/indiespirit/react-native-chart-kit/issues/237
     setLabels({
-      data: Object.keys(covidTimeSeriesData.timeline.deaths) as never,
+      data: Object.keys(covidTimeSeriesData.timeline.cases) as never,
       loading: false,
     });
-    setData({
-      data: Object.values(covidTimeSeriesData.timeline.cases),
-      loading: false,
-    });
+    if (apiType == "deaths") {
+      setData({
+        data: Object.values(covidTimeSeriesData.timeline.deaths),
+        loading: false,
+      });
+    } else if (apiType == "recovered") {
+      setData({
+        data: Object.values(covidTimeSeriesData.timeline.recovered),
+        loading: false,
+      });
+    } else {
+      setData({
+        data: Object.values(covidTimeSeriesData.timeline.cases),
+        loading: false,
+      });
+    }
   }
 
   async function getCovidStats() {
@@ -72,9 +85,21 @@ export default function Detail(
       <View style={styles.container}>
         <Heading text={countryCode} subtitle={countryName} type="detail" />
         <View style={styles.statisticsContainer}>
-          <Statistics title="cases" amount={cases.cases} />
-          <Statistics title="death" amount={deaths} />
-          <Statistics title="recovered" amount={recovered} />
+          <Statistics
+            title="cases"
+            amount={cases.cases}
+            onPress={() => getCovidTimeSeriesData(period, "cases")}
+          />
+          <Statistics
+            title="deaths"
+            amount={deaths}
+            onPress={() => getCovidTimeSeriesData(period, "deaths")}
+          />
+          <Statistics
+            title="recovered"
+            amount={recovered}
+            onPress={() => getCovidTimeSeriesData(period, "recovered")}
+          />
         </View>
         <View style={styles.timeStampsContainer}>
           <Button
