@@ -12,30 +12,34 @@ type Props = {
   cases: number;
   deaths: number;
   recovered: number;
-  onPress?: () => {};
+  onPress1?: () => {};
+  onPress2?: () => {};
+  onPress3?: () => {};
 };
 
 export default function Statistics({
   cases,
   deaths,
   recovered,
-  onPress,
+  onPress1,
+  onPress2,
+  onPress3,
 }: Props) {
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={onPress}>
+      <TouchableOpacity onPress={onPress1}>
         <View style={styles.statisticsContainer}>
           <Text style={styles.headerText}>Cases</Text>
           <Text style={styles.statsText}>{cases}</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity onPress={onPress}>
+      <TouchableOpacity onPress={onPress2}>
         <View style={styles.statisticsContainer}>
           <Text style={styles.headerText}>Deaths</Text>
           <Text style={styles.statsText}>{deaths}</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity onPress={onPress}>
+      <TouchableOpacity onPress={onPress3}>
         <View style={styles.statisticsContainer}>
           <Text style={styles.headerText}>Recovered</Text>
           <Text style={styles.statsText}>{recovered}</Text>
