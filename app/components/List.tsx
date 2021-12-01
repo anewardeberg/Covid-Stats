@@ -5,33 +5,10 @@ import ListItem from "./ListItem";
 
 type Props = {
   listType: "infections" | "vaccine";
+  data: [];
 };
 
-export default function List({ listType }: Props) {
-  const [data, setData] = useState([]);
-  async function fetchCovidData() {
-    const countriesCovidData = await CovidApi.getAllCountriesCovidStats();
-    const ascendingCountries = countriesCovidData.sort((a, b) => {
-      return b.cases - a.cases;
-    });
-    setData(ascendingCountries);
-  }
-
-  async function fetchVaccineData() {
-    const countriesVaccineData =
-      await CovidApi.getVaccineCoveragePeriodCountries(1);
-    const ascendingCountries = countriesVaccineData.sort((a, b) => {
-      return b.timeline[0].total - a.timeline[0].total;
-    });
-    setData(ascendingCountries);
-  }
-
-  if (listType == "infections") {
-    fetchCovidData();
-  } else if (listType == "vaccine") {
-    fetchVaccineData();
-  }
-
+export default function List({ listType, data }: Props) {
   if (listType == "infections") {
     return (
       <View>

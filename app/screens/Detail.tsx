@@ -70,7 +70,11 @@ export default function Detail(
         <Heading text={countryCode} subtitle={countryName} type="detail" />
         <Statistics cases={cases} deaths={deaths} recovered={recovered} />
         <View style={styles.timeStampsContainer}>
-          <Button onPress={() => alert("hei")} type="timeStamp" title="All" />
+          <Button
+            onPress={() => setPeriod("all")}
+            type="timeStamp"
+            title="All"
+          />
           <Button
             onPress={() => setPeriod("365")}
             type="timeStamp"

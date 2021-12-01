@@ -23,6 +23,7 @@ export default function StatList(
   const [deaths, setDeaths] = useState(0);
   const [recovered, setRecovered] = useState(0);
   const [labels, setLabels] = useState({ data: [], loading: true });
+  const [listData, setListData] = useState([]);
   const [data, setData] = useState({ data: [], loading: true });
 
   async function getCovidStats() {
@@ -31,6 +32,23 @@ export default function StatList(
     setCases(allCovidData.cases);
     setDeaths(allCovidData.deaths);
     setRecovered(allCovidData.recovered);
+  }
+
+  async function fetchCovidListData() {
+    const countriesCovidData = await CovidApi.getAllCountriesCovidStats();
+    const ascendingCountries = countriesCovidData.sort((a, b) => {
+      return b.cases - a.cases;
+    });
+    setListData(ascendingCountries);
+  }
+
+  async function fetchVaccineListData() {
+    const countriesVaccineData =
+      await CovidApi.getVaccineCoveragePeriodCountries(1);
+    const ascendingCountries = countriesVaccineData.sort((a, b) => {
+      return b.timeline[0].total - a.timeline[0].total;
+    });
+    setListData(ascendingCountries);
   }
 
   async function getGlobalVaccineHistory() {
@@ -48,6 +66,11 @@ export default function StatList(
   useEffect(() => {
     getCovidStats();
     getGlobalVaccineHistory();
+    if (pageType == "infections") {
+      fetchCovidListData();
+    } else if (pageType == "vaccine") {
+      fetchVaccineListData();
+    }
   }, []);
   if (pageType == "infections") {
     return (
@@ -55,7 +78,7 @@ export default function StatList(
         <View style={styles.innerContainer}>
           <Heading text="world statistics" type="screen" />
           <Statistics cases={cases} deaths={deaths} recovered={recovered} />
-          <List listType="infections" />
+          <List listType="infections" data={listData as never} />
         </View>
       </SafeAreaView>
     );
@@ -67,7 +90,7 @@ export default function StatList(
           {data.loading ? null : (
             <Graph labels={labels.data as never} data={data.data as never} />
           )}
-          <List listType="vaccine" />
+          <List listType="vaccine" data={listData as never} />
         </View>
       </SafeAreaView>
     );
