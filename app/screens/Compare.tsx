@@ -22,7 +22,7 @@ export default function Compare({
   route,
 }: NativeStackScreenProps<RootStackParamList, "Compare">) {
   const { pageType } = route.params;
-  const [text1, onChangeText1] = useState("italy");
+  const [text1, onChangeText1] = useState("norway");
   const [text2, onChangeText2] = useState("norway");
   const [country1, setCountry1] = useState({
     name: "",
