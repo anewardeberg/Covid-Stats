@@ -10,6 +10,7 @@ import {
 import { LineChart } from "react-native-chart-kit";
 import { RootStackParamList } from "../../App";
 import CovidApi from "../../CovidApi";
+import AppLoader from "../components/AppLoader";
 import CompareData from "../components/CompareData";
 import Button from "../components/Exports";
 import Flag from "../components/Flag";
@@ -141,6 +142,7 @@ export default function Compare({
   if (pageType == "infections") {
     return (
       <View style={styles.container}>
+        {loading ? <AppLoader /> : null}
         <Heading text="Compare" type="screen" />
         <View style={styles.inputContainer}>
           <TextInput
@@ -218,6 +220,7 @@ export default function Compare({
   } else {
     return (
       <View style={styles.container}>
+        {loading ? <AppLoader /> : null}
         <Heading text="Compare" type="screen" />
         <View style={styles.inputContainer}>
           <TextInput
