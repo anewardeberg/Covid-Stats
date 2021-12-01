@@ -47,6 +47,7 @@ export default function StatList(
 
   async function fetchCovidListData(sortBy: string) {
     setPending(true);
+    setSortBy(sortBy);
     const countriesCovidData = await CovidApi.getAllCountriesCovidStats();
     var countriesList;
     if (sortBy == "deaths") {
@@ -123,6 +124,9 @@ export default function StatList(
               onPress={() => fetchCovidListData("recovered")}
             />
           </View>
+          <Text
+            style={styles.text}
+          >{`List is sorted by total amount of ${sortBy}.`}</Text>
           <List listType="infections" data={listData as never} />
         </View>
         {pending ? <AppLoader /> : null}
@@ -156,6 +160,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: Dimensions.get("screen").width,
+  },
+  text: {
+    alignSelf: "center",
+    color: colors.covidRed,
+    fontStyle: "italic",
   },
   innerContainer: { flex: 1, margin: 20 },
 });

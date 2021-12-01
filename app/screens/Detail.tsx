@@ -192,6 +192,7 @@ const styles = StyleSheet.create({
   timeStampsContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+    marginTop: 20,
     marginRight: 10,
     marginLeft: 10,
   },
