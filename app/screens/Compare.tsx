@@ -108,6 +108,7 @@ export default function Compare({
   }
 
   async function getVaccineDataCountry1(text1: string) {
+    setLoading(true);
     const country1VaccineData = await CovidApi.getVaccineCoverageForCountry(
       text1,
       period
@@ -121,9 +122,11 @@ export default function Compare({
       doses: country1doses.timeline.total,
       loading: false,
     });
+    setLoading(false);
   }
 
   async function getVaccineDataCountry2(text2: string) {
+    setLoading(true);
     const country2VaccineData = await CovidApi.getVaccineCoverageForCountry(
       text2,
       period
@@ -137,6 +140,7 @@ export default function Compare({
       doses: country2doses.timeline.total,
       loading: false,
     });
+    setLoading(false);
   }
 
   if (pageType == "infections") {
@@ -248,7 +252,9 @@ export default function Compare({
           number2={country2VaccineData.doses}
         /> */}
         {/* https://github.com/indiespirit/react-native-chart-kit/issues/23 */}
-        {country1VaccineData.loading ? null : (
+        {country1VaccineData.loading ? (
+          <AppLoader />
+        ) : (
           <LineChart
             bezier
             withDots={false}
