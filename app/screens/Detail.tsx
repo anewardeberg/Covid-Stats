@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { RootStackParamList } from "../../App";
 import CovidApi from "../../CovidApi";
+import AppLoader from "../components/AppLoader";
 import Button from "../components/Exports";
 import Flag from "../components/Flag";
 import Graph from "../components/Graph";
@@ -20,7 +21,7 @@ export default function Detail(
 ) {
   const { pageType } = route.params;
   const { country } = route.params;
-  const [cases, setCases] = useState(0);
+  const [cases, setCases] = useState({ cases: 0, loading: true });
   const [flagUri, setFlagUri] = useState("");
   const [countryName, setCountryName] = useState("");
   const [countryCode, setCountryCode] = useState("");
@@ -29,6 +30,7 @@ export default function Detail(
   const [labels, setLabels] = useState({ data: [], loading: true });
   const [data, setData] = useState({ data: [], loading: true });
   const [period, setPeriod] = useState("all");
+  const [pending, setPending] = useState(false);
 
   useEffect(() => {
     getCovidStats();
@@ -59,16 +61,16 @@ export default function Detail(
     const countryCovidStats = await CovidApi.getCovidStatForCountry(country);
     setCountryName(countryCovidStats.country);
     setCountryCode(countryCovidStats.countryInfo.iso3);
-    setCases(countryCovidStats.cases);
     setDeaths(countryCovidStats.deaths);
     setRecovered(countryCovidStats.recovered);
     setFlagUri(countryCovidStats.countryInfo.flag);
+    setCases({ cases: countryCovidStats.cases, loading: false });
   }
   if (pageType == "infections") {
     return (
       <View style={styles.container}>
         <Heading text={countryCode} subtitle={countryName} type="detail" />
-        <Statistics cases={cases} deaths={deaths} recovered={recovered} />
+        <Statistics cases={cases.cases} deaths={deaths} recovered={recovered} />
         <View style={styles.timeStampsContainer}>
           <Button
             onPress={() => setPeriod("all")}
@@ -96,7 +98,9 @@ export default function Detail(
             title="1 week"
           />
         </View>
-        {data.loading ? null : (
+        {data.loading ? (
+          <AppLoader />
+        ) : (
           <Graph labels={labels.data as never} data={data.data as never} />
         )}
         <Flag uri={flagUri} type="detail" />

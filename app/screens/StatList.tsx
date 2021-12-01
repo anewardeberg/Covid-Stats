@@ -1,8 +1,9 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
 import { FlatList, SafeAreaView, StyleSheet, Text, View } from "react-native";
-import { RootStackParamList } from "../../App";
+import App, { RootStackParamList } from "../../App";
 import CovidApi from "../../CovidApi";
+import AppLoader from "../components/AppLoader";
 import CovidList from "../components/CovidList";
 import Graph from "../components/Graph";
 import Heading from "../components/Heading";
@@ -25,33 +26,41 @@ export default function StatList(
   const [labels, setLabels] = useState({ data: [], loading: true });
   const [listData, setListData] = useState([]);
   const [data, setData] = useState({ data: [], loading: true });
+  const [pending, setPending] = useState(false);
 
   async function getCovidStats() {
+    setPending(true);
     const allCovidData = await CovidApi.getGlobalCovidStats();
     const covidDataCountry = await CovidApi.getCovidStatForCountry(250);
     setCases(allCovidData.cases);
     setDeaths(allCovidData.deaths);
     setRecovered(allCovidData.recovered);
+    setPending(false);
   }
 
   async function fetchCovidListData() {
+    setPending(true);
     const countriesCovidData = await CovidApi.getAllCountriesCovidStats();
     const ascendingCountries = countriesCovidData.sort((a, b) => {
       return b.cases - a.cases;
     });
     setListData(ascendingCountries);
+    setPending(false);
   }
 
   async function fetchVaccineListData() {
+    setPending(true);
     const countriesVaccineData =
       await CovidApi.getVaccineCoveragePeriodCountries(1);
     const ascendingCountries = countriesVaccineData.sort((a, b) => {
       return b.timeline[0].total - a.timeline[0].total;
     });
     setListData(ascendingCountries);
+    setPending(false);
   }
 
   async function getGlobalVaccineHistory() {
+    setPending(true);
     const vaccineHistory = await CovidApi.getGlobalVaccineCoverage("all");
     setLabels({
       data: Object.keys(vaccineHistory) as never,
@@ -61,6 +70,7 @@ export default function StatList(
       data: Object.values(vaccineHistory),
       loading: false,
     });
+    setPending(false);
   }
 
   useEffect(() => {
@@ -80,6 +90,7 @@ export default function StatList(
           <Statistics cases={cases} deaths={deaths} recovered={recovered} />
           <List listType="infections" data={listData as never} />
         </View>
+        {pending ? <AppLoader /> : null}
       </SafeAreaView>
     );
   } else {

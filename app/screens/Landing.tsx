@@ -6,6 +6,7 @@ import colors from "../config/colors";
 import { RootStackParamList } from "../../App";
 import CovidApi from "../../CovidApi";
 import { LineChart } from "react-native-chart-kit";
+import AppLoader from "../components/AppLoader";
 
 async function getCovidStats() {
   const allCovidData = await CovidApi.getGlobalCovidStats();
