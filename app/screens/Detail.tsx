@@ -42,6 +42,7 @@ export default function Detail(
   }, [period]);
 
   async function getCovidTimeSeriesData(period: string) {
+    setData({ data: [], loading: true });
     const covidTimeSeriesData = await CovidApi.getCovidTimeSeriesDataForCountry(
       country,
       period
