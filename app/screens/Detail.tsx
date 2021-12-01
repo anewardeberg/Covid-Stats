@@ -111,6 +111,38 @@ export default function Detail(
     return (
       <View style={styles.container}>
         <Heading text={countryCode} subtitle={countryName} type="detail" />
+        <View style={styles.timeStampsContainer}>
+          <Button
+            onPress={() => setPeriod("all")}
+            type="timeStamp"
+            title="All"
+          />
+          <Button
+            onPress={() => setPeriod("365")}
+            type="timeStamp"
+            title="1 year"
+          />
+          <Button
+            onPress={() => setPeriod("90")}
+            type="timeStamp"
+            title="3 months"
+          />
+          <Button
+            onPress={() => setPeriod("30")}
+            type="timeStamp"
+            title="1 month"
+          />
+          <Button
+            onPress={() => setPeriod("7")}
+            type="timeStamp"
+            title="1 week"
+          />
+        </View>
+        {data.loading ? (
+          <AppLoader />
+        ) : (
+          <Graph labels={labels.data as never} data={data.data as never} />
+        )}
         <Flag uri={flagUri} type="detail" />
       </View>
     );

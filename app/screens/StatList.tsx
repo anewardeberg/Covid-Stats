@@ -85,6 +85,7 @@ export default function StatList(
   if (pageType == "infections") {
     return (
       <SafeAreaView style={styles.container}>
+        {pending ? <AppLoader /> : null}
         <View style={styles.innerContainer}>
           <Heading text="world statistics" type="screen" />
           <Statistics cases={cases} deaths={deaths} recovered={recovered} />
@@ -96,6 +97,7 @@ export default function StatList(
   } else {
     return (
       <SafeAreaView style={styles.container}>
+        {pending ? <AppLoader /> : null}
         <View style={styles.innerContainer}>
           <Heading text="world statistics" type="screen" />
           {data.loading ? null : (
