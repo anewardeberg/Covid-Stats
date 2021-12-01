@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Dimensions,
+  GestureResponderEvent,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -12,9 +13,9 @@ type Props = {
   cases: number;
   deaths: number;
   recovered: number;
-  onPress1?: () => {};
-  onPress2?: () => {};
-  onPress3?: () => {};
+  onPress1?: (event: GestureResponderEvent) => void;
+  onPress2?: (event: GestureResponderEvent) => void;
+  onPress3?: (event: GestureResponderEvent) => void;
 };
 
 export default function Statistics({
