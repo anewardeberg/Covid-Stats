@@ -26,7 +26,7 @@ export default function Graph({ labels, data }: Props) {
         formatYLabel={(yValue) => {
           return yValue.substring(0, yValue.length - 3);
         }}
-        verticalLabelRotation={45}
+        verticalLabelRotation={20}
         chartConfig={{
           backgroundColor: "#e26a00",
           backgroundGradientFrom: "#fff",
