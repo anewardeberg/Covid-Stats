@@ -255,42 +255,44 @@ export default function Compare({
         {country1VaccineData.loading ? (
           <AppLoader />
         ) : (
-          <LineChart
-            bezier
-            withDots={false}
-            data={{
-              labels: [" 1", " 2", " 3", " 4", " 5", " 6"],
-              datasets: [
-                {
-                  data: country1VaccineData.data,
-                  strokeWidth: 3,
-                  color: (opacity = 1) => `rgba(78,185,128, ${opacity})`, // optional
+          <View style={styles.chartContainer}>
+            <LineChart
+              bezier
+              withDots={false}
+              data={{
+                labels: [" 1", " 2", " 3", " 4", " 5", " 6"],
+                datasets: [
+                  {
+                    data: country1VaccineData.data,
+                    strokeWidth: 3,
+                    color: (opacity = 1) => `rgba(78,185,128, ${opacity})`, // optional
+                  },
+                  {
+                    data: country2VaccineData.data,
+                    strokeWidth: 3,
+                    color: (opacity = 1) => `rgba(78,149,185, ${opacity})`, // optional
+                  },
+                ],
+                legend: [text1, text2],
+              }}
+              width={Dimensions.get("window").width - 16}
+              height={200}
+              chartConfig={{
+                backgroundColor: "#1cc910",
+                backgroundGradientFrom: "#eff3ff",
+                backgroundGradientTo: "#efefef",
+                decimalPlaces: 2,
+                color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                style: {
+                  borderRadius: 16,
                 },
-                {
-                  data: country2VaccineData.data,
-                  strokeWidth: 3,
-                  color: (opacity = 1) => `rgba(78,149,185, ${opacity})`, // optional
-                },
-              ],
-              legend: [text1, text2],
-            }}
-            width={Dimensions.get("window").width - 16}
-            height={200}
-            chartConfig={{
-              backgroundColor: "#1cc910",
-              backgroundGradientFrom: "#eff3ff",
-              backgroundGradientTo: "#efefef",
-              decimalPlaces: 2,
-              color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-              style: {
+              }}
+              style={{
+                marginVertical: 8,
                 borderRadius: 16,
-              },
-            }}
-            style={{
-              marginVertical: 8,
-              borderRadius: 16,
-            }}
-          />
+              }}
+            />
+          </View>
         )}
       </View>
     );
@@ -323,5 +325,8 @@ const styles = StyleSheet.create({
     margin: 20,
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+  chartContainer: {
+    alignItems: "center",
   },
 });
