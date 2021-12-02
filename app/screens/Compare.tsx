@@ -320,7 +320,7 @@ export default function Compare({
                 backgroundColor: "#1cc910",
                 backgroundGradientFrom: "#eff3ff",
                 backgroundGradientTo: "#efefef",
-                decimalPlaces: 0,
+                decimalPlaces: 2,
                 color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
                 style: {
                   borderRadius: 16,
