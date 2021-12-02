@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
-import CovidApi from "../../CovidApi";
 import ListItem from "./ListItem";
 
 type Props = {
