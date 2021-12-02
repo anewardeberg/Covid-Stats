@@ -69,6 +69,12 @@ export default function Compare({
     getVaccineDataCountry1(text1);
     getVaccineDataCountry2(text2);
   }, []);
+
+  useEffect(() => {
+    getVaccineDataCountry1(text1);
+    getVaccineDataCountry2(text2);
+  }, [period]);
+
   async function getCovidStatsCountry1(text1: string) {
     setLoading(true);
     const country1CovidStats = await CovidApi.getCovidStatForCountry(text1);
@@ -236,6 +242,8 @@ export default function Compare({
             onPress={() => {
               getVaccineDataCountry1(text1.toLowerCase()),
                 getVaccineDataCountry2(text2.toLowerCase());
+              getCovidStatsCountry1(text1.toLowerCase()),
+                getCovidStatsCountry2(text2.toLowerCase());
             }}
             type="navigation"
             icon="compare"
@@ -244,6 +252,37 @@ export default function Compare({
             style={styles.input}
             placeholder="COUNTRY 2"
             onChangeText={onChangeText2}
+          />
+        </View>
+        <View style={styles.flagContainer}>
+          <Flag uri={country1.flag} type="icon" />
+          <Flag uri={country2.flag} type="icon" />
+        </View>
+        <View style={styles.timeStampsContainer}>
+          <Button
+            onPress={() => setPeriod("all")}
+            type="timeStamp"
+            title="All"
+          />
+          <Button
+            onPress={() => setPeriod("365")}
+            type="timeStamp"
+            title="1 year"
+          />
+          <Button
+            onPress={() => setPeriod("90")}
+            type="timeStamp"
+            title="3 months"
+          />
+          <Button
+            onPress={() => setPeriod("30")}
+            type="timeStamp"
+            title="1 month"
+          />
+          <Button
+            onPress={() => setPeriod("7")}
+            type="timeStamp"
+            title="1 week"
           />
         </View>
         {/* <CompareData
@@ -281,7 +320,7 @@ export default function Compare({
                 backgroundColor: "#1cc910",
                 backgroundGradientFrom: "#eff3ff",
                 backgroundGradientTo: "#efefef",
-                decimalPlaces: 2,
+                decimalPlaces: 0,
                 color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
                 style: {
                   borderRadius: 16,
@@ -325,6 +364,13 @@ const styles = StyleSheet.create({
     margin: 20,
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+  timeStampsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 10,
+    marginRight: 10,
+    marginLeft: 10,
   },
   chartContainer: {
     alignItems: "center",
