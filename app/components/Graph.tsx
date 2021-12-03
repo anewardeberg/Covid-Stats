@@ -6,9 +6,17 @@ type Props = {
   labels: [];
   data: [];
   multiple?: boolean;
+  legend1?: string;
+  legend2?: string;
 };
 
-export default function Graph({ labels, data, multiple }: Props) {
+export default function Graph({
+  labels,
+  data,
+  multiple,
+  legend1,
+  legend2,
+}: Props) {
   return (
     <View style={styles.container}>
       <LineChart
@@ -17,6 +25,7 @@ export default function Graph({ labels, data, multiple }: Props) {
             ? {
                 labels: labels,
                 datasets: data,
+                legend: [legend1, legend2],
               }
             : {
                 labels: labels,

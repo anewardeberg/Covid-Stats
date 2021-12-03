@@ -371,7 +371,13 @@ export default function Compare({
         {/* https://github.com/indiespirit/react-native-chart-kit/issues/23 */}
         {country1VaccineData.loading ? null : (
           <View style={styles.chartContainer}>
-            <Graph multiple labels={labels as never} data={graphData} />
+            <Graph
+              multiple
+              labels={labels as never}
+              data={graphData}
+              legend1={country1.name}
+              legend2={country2.name}
+            />
           </View>
         )}
       </View>
