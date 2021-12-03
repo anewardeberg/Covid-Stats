@@ -51,17 +51,18 @@ export default function Compare({
     recoveredPerOneMillion: 1,
   });
   const [country1VaccineData, setCountry1VaccineData] = useState({
-    data: ["1", "1"],
+    data: [1, 1],
     doses: 1,
     loading: true,
   });
   const [country2VaccineData, setCountry2VaccineData] = useState({
-    data: ["1", "1"],
+    data: [1, 1],
     doses: 1,
     loading: true,
   });
   const [period, setPeriod] = useState("30");
   const [loading, setLoading] = useState(true);
+  const [labels, setLabels] = useState([]);
 
   useEffect(() => {
     getCovidStatsCountry1(text1);
@@ -147,6 +148,41 @@ export default function Compare({
       loading: false,
     });
     setLoading(false);
+  }
+
+  function getPreviousMonths(amount: number) {
+    var months = [];
+    const monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    var current = new Date();
+    for (var i = 0; i < amount; i++) {
+      months.push(monthNames[current.getMonth() - i]);
+    }
+    setLabels(months.reverse() as never);
+  }
+
+  function getPreviousWeeks(amount: number) {
+    var weeks = [];
+    var current = new Date();
+    var oneJan = new Date(current.getFullYear(), 0, 1);
+    var numberOfDays = Math.floor((current - oneJan) / (24 * 60 * 60 * 1000));
+    var result = Math.ceil((current.getDay() + 1 + numberOfDays) / 7);
+    for (var i = 0; i < amount; i++) {
+      weeks.push(`Week ${result - i}`);
+    }
+    setLabels(weeks.reverse() as never);
   }
 
   if (pageType == "infections") {
@@ -270,27 +306,50 @@ export default function Compare({
         />
         <View style={styles.timeStampsContainer}>
           <Button
-            onPress={() => setPeriod("all")}
+            onPress={() => {
+              setPeriod("all");
+              setLabels(["Dec. 2019", " ", " ", " ", " ", "Today"] as never);
+            }}
             type="timeStamp"
             title="All"
           />
           <Button
-            onPress={() => setPeriod("365")}
+            onPress={() => {
+              setPeriod("365");
+              getPreviousMonths(12);
+            }}
             type="timeStamp"
             title="1 year"
           />
           <Button
-            onPress={() => setPeriod("90")}
+            onPress={() => {
+              setPeriod("90");
+              getPreviousMonths(3);
+            }}
             type="timeStamp"
             title="3 months"
           />
           <Button
-            onPress={() => setPeriod("30")}
+            onPress={() => {
+              setPeriod("30");
+              getPreviousWeeks(4);
+            }}
             type="timeStamp"
             title="1 month"
           />
           <Button
-            onPress={() => setPeriod("7")}
+            onPress={() => {
+              setPeriod("7");
+              setLabels([
+                "Mon",
+                "Tue",
+                "Wed",
+                "Thu",
+                "Fri",
+                "Sat",
+                "Sun",
+              ] as never);
+            }}
             type="timeStamp"
             title="1 week"
           />
@@ -303,17 +362,17 @@ export default function Compare({
               bezier
               withDots={false}
               data={{
-                labels: [" 1", " 2", " 3", " 4", " 5", " 6"],
+                labels: labels,
                 datasets: [
                   {
                     data: country1VaccineData.data,
                     strokeWidth: 3,
-                    color: (opacity = 1) => `rgba(78,185,128, ${opacity})`, // optional
+                    color: (opacity = 1) => `rgba(78,185,128, ${opacity})`,
                   },
                   {
                     data: country2VaccineData.data,
                     strokeWidth: 3,
-                    color: (opacity = 1) => `rgba(78,149,185, ${opacity})`, // optional
+                    color: (opacity = 1) => `rgba(78,149,185, ${opacity})`,
                   },
                 ],
                 legend: [text1, text2],
