@@ -31,7 +31,7 @@ export default function Detail(
   const [recovered, setRecovered] = useState(0);
   const [labels, setLabels] = useState({ data: [], loading: true });
   const [data, setData] = useState({ data: [], loading: true });
-  const [period, setPeriod] = useState("all");
+  const [period, setPeriod] = useState("30");
   const [apiType, setApiType] = useState("cases");
 
   useEffect(() => {
@@ -213,27 +213,56 @@ export default function Detail(
         <Heading text={countryCode} subtitle={countryName} type="detail" />
         <View style={styles.timeStampsContainer}>
           <Button
-            onPress={() => setPeriod("all")}
+            onPress={() => {
+              setPeriod("all");
+              setLabels({
+                data: ["Dec. 2019", " ", " ", " ", " ", "Today"] as never,
+                loading: false,
+              });
+            }}
             type="timeStamp"
             title="All"
           />
           <Button
-            onPress={() => setPeriod("365")}
+            onPress={() => {
+              setPeriod("365");
+              getPreviousMonths(12);
+            }}
             type="timeStamp"
             title="1 year"
           />
           <Button
-            onPress={() => setPeriod("90")}
+            onPress={() => {
+              setPeriod("90");
+              getPreviousMonths(3);
+            }}
             type="timeStamp"
             title="3 months"
           />
           <Button
-            onPress={() => setPeriod("30")}
+            onPress={() => {
+              setPeriod("30");
+              getPreviousWeeks(4);
+            }}
             type="timeStamp"
             title="1 month"
           />
           <Button
-            onPress={() => setPeriod("7")}
+            onPress={() => {
+              setPeriod("7");
+              setLabels({
+                data: [
+                  "Monday",
+                  "Tuesday",
+                  "Wednesday",
+                  "Thursday",
+                  "Friday",
+                  "Saturday",
+                  "Sunday",
+                ] as never,
+                loading: false,
+              });
+            }}
             type="timeStamp"
             title="1 week"
           />

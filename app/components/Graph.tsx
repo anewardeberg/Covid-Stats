@@ -57,6 +57,7 @@ export default function Graph({
           },
         }}
         bezier
+        fromZero
         style={{
           marginVertical: 8,
           borderRadius: 16,
