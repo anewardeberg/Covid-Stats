@@ -22,7 +22,9 @@ export default function Detail(
   const { pageType } = route.params;
   const { country } = route.params;
   const [cases, setCases] = useState({ cases: 0, loading: true });
-  const [flagUri, setFlagUri] = useState("");
+  const [flagUri, setFlagUri] = useState(
+    "https://upload.wikimedia.org/wikipedia/commons/2/2f/Missing_flag.png"
+  );
   const [countryName, setCountryName] = useState("");
   const [countryCode, setCountryCode] = useState("");
   const [deaths, setDeaths] = useState(0);
