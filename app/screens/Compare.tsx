@@ -51,12 +51,12 @@ export default function Compare({
     recoveredPerOneMillion: 1,
   });
   const [country1VaccineData, setCountry1VaccineData] = useState({
-    data: [],
+    data: ["1", "1"],
     doses: 1,
     loading: true,
   });
   const [country2VaccineData, setCountry2VaccineData] = useState({
-    data: [],
+    data: ["1", "1"],
     doses: 1,
     loading: true,
   });
