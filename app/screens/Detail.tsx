@@ -35,6 +35,7 @@ export default function Detail(
   useEffect(() => {
     getCovidStats();
     getCovidTimeSeriesData(period, apiType);
+    getPreviousWeeks(4);
   }, []);
 
   useEffect(() => {
@@ -49,10 +50,10 @@ export default function Detail(
       period
     );
     // https://github.com/indiespirit/react-native-chart-kit/issues/237
-    setLabels({
+    /* setLabels({
       data: Object.keys(covidTimeSeriesData.timeline.cases) as never,
       loading: false,
-    });
+    }); */
     if (apiType == "deaths") {
       setData({
         data: Object.values(covidTimeSeriesData.timeline.deaths),
@@ -80,6 +81,42 @@ export default function Detail(
     setFlagUri(countryCovidStats.countryInfo.flag);
     setCases({ cases: countryCovidStats.cases, loading: false });
   }
+
+  function getPreviousMonths(amount: number) {
+    var months = [];
+    const monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    var current = new Date();
+    for (var i = 0; i < amount; i++) {
+      months.push(monthNames[current.getMonth() - i]);
+    }
+    setLabels({ data: months.reverse() as never, loading: false });
+  }
+
+  function getPreviousWeeks(amount: number) {
+    var weeks = [];
+    var current = new Date();
+    var oneJan = new Date(current.getFullYear(), 0, 1);
+    var numberOfDays = Math.floor((current - oneJan) / (24 * 60 * 60 * 1000));
+    var result = Math.ceil((current.getDay() + 1 + numberOfDays) / 7);
+    for (var i = 0; i < amount; i++) {
+      weeks.push(`Week ${result - i}`);
+    }
+    setLabels({ data: weeks.reverse() as never, loading: false });
+  }
+
   if (pageType == "infections") {
     return (
       <View style={styles.container}>
@@ -88,7 +125,10 @@ export default function Detail(
           <Statistics
             title="cases"
             amount={cases.cases}
-            onPress={() => getCovidTimeSeriesData(period, "cases")}
+            onPress={() => {
+              getCovidTimeSeriesData(period, "cases");
+              getPreviousMonths(3);
+            }}
           />
           <Statistics
             title="deaths"
@@ -103,27 +143,56 @@ export default function Detail(
         </View>
         <View style={styles.timeStampsContainer}>
           <Button
-            onPress={() => setPeriod("all")}
+            onPress={() => {
+              setPeriod("all");
+              setLabels({
+                data: ["Dec. 2019", " ", " ", " ", " ", "Today"] as never,
+                loading: false,
+              });
+            }}
             type="timeStamp"
             title="All"
           />
           <Button
-            onPress={() => setPeriod("365")}
+            onPress={() => {
+              setPeriod("365");
+              getPreviousMonths(12);
+            }}
             type="timeStamp"
             title="1 year"
           />
           <Button
-            onPress={() => setPeriod("90")}
+            onPress={() => {
+              setPeriod("90");
+              getPreviousMonths(3);
+            }}
             type="timeStamp"
             title="3 months"
           />
           <Button
-            onPress={() => setPeriod("30")}
+            onPress={() => {
+              setPeriod("30");
+              getPreviousWeeks(4);
+            }}
             type="timeStamp"
             title="1 month"
           />
           <Button
-            onPress={() => setPeriod("7")}
+            onPress={() => {
+              setPeriod("7");
+              setLabels({
+                data: [
+                  "Monday",
+                  "Tuesday",
+                  "Wednesday",
+                  "Thursday",
+                  "Friday",
+                  "Saturday",
+                  "Sunday",
+                ] as never,
+                loading: false,
+              });
+            }}
             type="timeStamp"
             title="1 week"
           />
