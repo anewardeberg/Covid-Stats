@@ -215,7 +215,7 @@ export default function Compare({
                 getCovidStatsCountry2(text2.toLowerCase());
             }}
             type="navigation"
-            icon="compare"
+            icon="balance-scale"
           />
           <TextInput
             style={styles.input}
@@ -295,7 +295,7 @@ export default function Compare({
                 getCovidStatsCountry2(text2.toLowerCase());
             }}
             type="navigation"
-            icon="compare"
+            icon="balance-scale"
           />
           <TextInput
             style={styles.input}

@@ -32,7 +32,7 @@ export default function Choices({
         <Button
           onPress={() => navigation.navigate("Compare", { pageType: pageType })}
           title="compare"
-          icon="compare"
+          icon="balance-scale"
           type="primary"
         />
       </View>

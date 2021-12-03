@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import GetIcon from "./GetIcon";
 
 type Props = {
   onPress: (event: GestureResponderEvent) => void;
@@ -23,16 +24,17 @@ export default function Button({ onPress, title, icon, type }: Props) {
         onPress={onPress}
         style={styles.navigationButtonContainer}
       >
-        <View style={styles.navigationButtonIcon} />
+        <View style={styles.navigationButtonIcon}>
+          <GetIcon name={icon} size={25} />
+        </View>
       </TouchableOpacity>
     );
   } else if (type == "primary") {
     return (
       <TouchableOpacity onPress={onPress} style={styles.primaryButtonContainer}>
-        <Image
-          style={styles.buttonIcon}
-          source={require("../assets/favicon.png")}
-        />
+        <View style={styles.buttonIcon}>
+          <GetIcon name={icon} size={25} />
+        </View>
         <Text style={styles.buttonText}>{title}</Text>
       </TouchableOpacity>
     );
@@ -72,17 +74,12 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   buttonIcon: {
-    width: 30,
-    height: 30,
     alignSelf: "center",
     marginTop: 15,
     marginBottom: 10,
   },
   navigationButtonIcon: {
     marginTop: 3,
-    width: 30,
-    height: 30,
-    backgroundColor: colors.covidRed,
     alignSelf: "center",
   },
   buttonText: {

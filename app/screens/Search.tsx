@@ -37,7 +37,7 @@ export default function Search({
           value={text}
           placeholder="Search for country..."
         />
-        <Button onPress={() => checkInput()} type="navigation" icon="" />
+        <Button onPress={() => checkInput()} type="navigation" icon="search" />
       </View>
       <Text style={styles.error}>
         Could not find country "{text}". Please try again

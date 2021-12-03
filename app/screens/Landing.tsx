@@ -7,6 +7,7 @@ import { RootStackParamList } from "../../App";
 import CovidApi from "../../CovidApi";
 import { LineChart } from "react-native-chart-kit";
 import AppLoader from "../components/AppLoader";
+import GetIcon from "../components/GetIcon";
 
 async function getCovidStats() {
   const allCovidData = await CovidApi.getGlobalCovidStats();
@@ -24,7 +25,7 @@ export default function Landing({
             navigation.navigate("Choices", { pageType: "infections" })
           }
           title="infections"
-          icon="jeehh"
+          icon="head-side-mask"
           type="primary"
         />
         <Button
@@ -32,7 +33,7 @@ export default function Landing({
             navigation.navigate("Choices", { pageType: "vaccine" })
           }
           title="vaccine"
-          icon="jeehh"
+          icon="syringe"
           type="primary"
         />
       </View>
