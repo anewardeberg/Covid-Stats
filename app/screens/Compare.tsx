@@ -51,12 +51,12 @@ export default function Compare({
     recoveredPerOneMillion: 1,
   });
   const [country1VaccineData, setCountry1VaccineData] = useState({
-    data: [],
+    data: ["1", "1"],
     doses: 1,
     loading: true,
   });
   const [country2VaccineData, setCountry2VaccineData] = useState({
-    data: [],
+    data: ["1", "1"],
     doses: 1,
     loading: true,
   });
@@ -125,7 +125,7 @@ export default function Compare({
     );
     setCountry1VaccineData({
       data: Object.values(country1VaccineData.timeline),
-      doses: country1doses.timeline.total,
+      doses: country1doses.timeline[0].total,
       loading: false,
     });
     setLoading(false);
@@ -143,7 +143,7 @@ export default function Compare({
     );
     setCountry2VaccineData({
       data: Object.values(country2VaccineData.timeline),
-      doses: country2doses.timeline.total,
+      doses: country2doses.timeline[0].total,
       loading: false,
     });
     setLoading(false);
@@ -258,6 +258,16 @@ export default function Compare({
           <Flag uri={country1.flag} type="icon" />
           <Flag uri={country2.flag} type="icon" />
         </View>
+        <CompareData
+          title="population"
+          number1={country1.population}
+          number2={country2.population}
+        />
+        <CompareData
+          title={"Doses administered"}
+          number1={country1VaccineData.doses}
+          number2={country2VaccineData.doses}
+        />
         <View style={styles.timeStampsContainer}>
           <Button
             onPress={() => setPeriod("all")}
@@ -285,15 +295,9 @@ export default function Compare({
             title="1 week"
           />
         </View>
-        {/* <CompareData
-          title={"Doses administered"}
-          number1={country1VaccineData.doses}
-          number2={country2VaccineData.doses}
-        /> */}
+
         {/* https://github.com/indiespirit/react-native-chart-kit/issues/23 */}
-        {country1VaccineData.loading ? (
-          <AppLoader />
-        ) : (
+        {country1VaccineData.loading ? null : (
           <View style={styles.chartContainer}>
             <LineChart
               bezier
@@ -320,7 +324,7 @@ export default function Compare({
                 backgroundColor: "#1cc910",
                 backgroundGradientFrom: "#eff3ff",
                 backgroundGradientTo: "#efefef",
-                decimalPlaces: 2,
+                decimalPlaces: 0,
                 color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
                 style: {
                   borderRadius: 16,
@@ -361,7 +365,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   flagContainer: {
-    margin: 20,
+    marginLeft: 20,
+    marginRight: 20,
+    marginTop: 10,
     flexDirection: "row",
     justifyContent: "space-between",
   },
