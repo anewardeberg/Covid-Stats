@@ -5,20 +5,28 @@ import { LineChart } from "react-native-chart-kit";
 type Props = {
   labels: [];
   data: [];
+  multiple?: boolean;
 };
 
-export default function Graph({ labels, data }: Props) {
+export default function Graph({ labels, data, multiple }: Props) {
   return (
     <View style={styles.container}>
       <LineChart
-        data={{
-          labels: labels,
-          datasets: [
-            {
-              data: data,
-            },
-          ],
-        }}
+        data={
+          multiple
+            ? {
+                labels: labels,
+                datasets: data,
+              }
+            : {
+                labels: labels,
+                datasets: [
+                  {
+                    data: data,
+                  },
+                ],
+              }
+        }
         width={Dimensions.get("window").width / 1.05} // from react-native
         height={250}
         withDots={false}

@@ -14,6 +14,7 @@ import AppLoader from "../components/AppLoader";
 import CompareData from "../components/CompareData";
 import Button from "../components/Exports";
 import Flag from "../components/Flag";
+import Graph from "../components/Graph";
 import Heading from "../components/Heading";
 import colors from "../config/colors";
 
@@ -63,6 +64,18 @@ export default function Compare({
   const [period, setPeriod] = useState("30");
   const [loading, setLoading] = useState(true);
   const [labels, setLabels] = useState([]);
+  const graphData = [
+    {
+      data: country1VaccineData.data,
+      strokeWidth: 3,
+      color: (opacity = 1) => `rgba(78,185,128, ${opacity})`,
+    },
+    {
+      data: country2VaccineData.data,
+      strokeWidth: 3,
+      color: (opacity = 1) => `rgba(78,149,185, ${opacity})`,
+    },
+  ];
 
   useEffect(() => {
     getCovidStatsCountry1(text1);
@@ -358,42 +371,7 @@ export default function Compare({
         {/* https://github.com/indiespirit/react-native-chart-kit/issues/23 */}
         {country1VaccineData.loading ? null : (
           <View style={styles.chartContainer}>
-            <LineChart
-              bezier
-              withDots={false}
-              data={{
-                labels: labels,
-                datasets: [
-                  {
-                    data: country1VaccineData.data,
-                    strokeWidth: 3,
-                    color: (opacity = 1) => `rgba(78,185,128, ${opacity})`,
-                  },
-                  {
-                    data: country2VaccineData.data,
-                    strokeWidth: 3,
-                    color: (opacity = 1) => `rgba(78,149,185, ${opacity})`,
-                  },
-                ],
-                legend: [text1, text2],
-              }}
-              width={Dimensions.get("window").width - 16}
-              height={200}
-              chartConfig={{
-                backgroundColor: "#1cc910",
-                backgroundGradientFrom: "#eff3ff",
-                backgroundGradientTo: "#efefef",
-                decimalPlaces: 0,
-                color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-                style: {
-                  borderRadius: 16,
-                },
-              }}
-              style={{
-                marginVertical: 8,
-                borderRadius: 16,
-              }}
-            />
+            <Graph multiple labels={labels as never} data={graphData} />
           </View>
         )}
       </View>
