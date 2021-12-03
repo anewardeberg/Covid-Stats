@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   },
   screen: {
     fontSize: 40,
-    marginTop: 50,
+    marginTop: 10,
     color: colors.covidRed,
     alignSelf: "center",
   },
