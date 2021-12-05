@@ -1,6 +1,5 @@
 import React, { Dispatch, SetStateAction } from "react";
-import { Dimensions, StyleSheet, Text, View } from "react-native";
-import colors from "../config/colors";
+import { Dimensions, StyleSheet, View } from "react-native";
 import Button from "./Button";
 
 type Props = {
@@ -21,7 +20,9 @@ export default function GraphController({ labels, period }: Props) {
     var weeks = [];
     var current = new Date();
     var oneJan = new Date(current.getFullYear(), 0, 1);
-    var numberOfDays = Math.floor((current - oneJan) / (24 * 60 * 60 * 1000));
+    var numberOfDays = Math.floor(
+      (current.valueOf() - oneJan.valueOf()) / (24 * 60 * 60 * 1000)
+    );
     var result = Math.ceil((current.getDay() + 1 + numberOfDays) / 7);
     for (var i = 0; i < amount; i++) {
       weeks.push(`Week ${result - i}`);

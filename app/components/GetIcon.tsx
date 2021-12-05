@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 
 type Props = {
@@ -14,7 +14,3 @@ export default function GetIcon({ name, size }: Props) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  buttonIcon: {},
-});
