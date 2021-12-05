@@ -30,6 +30,7 @@ export default function List({ listType, data }: Props) {
     return (
       <View>
         <FlatList
+          contentContainerStyle={{ paddingBottom: 500 }}
           data={data}
           keyExtractor={(x, i) => i.toString()}
           renderItem={({ item, index }) => (
