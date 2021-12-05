@@ -1,22 +1,12 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import React, { useState } from "react";
-import { Dimensions, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import Button from "../components/Exports";
 import colors from "../config/colors";
 import { RootStackParamList } from "../../App";
-import CovidApi from "../../CovidApi";
-import { LineChart } from "react-native-chart-kit";
-import AppLoader from "../components/AppLoader";
-import GetIcon from "../components/GetIcon";
-
-async function getCovidStats() {
-  const allCovidData = await CovidApi.getGlobalCovidStats();
-}
 
 export default function Landing({
   navigation,
 }: NativeStackScreenProps<RootStackParamList, "Landing">) {
-  const [pageType, setPageType] = useState("infections");
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
