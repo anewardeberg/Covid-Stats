@@ -36,6 +36,8 @@ export default function Search({
           onChangeText={onChangeText}
           value={text}
           placeholder="Search for country..."
+          returnKeyType="search"
+          onSubmitEditing={checkInput}
         />
         <Button onPress={() => checkInput()} type="navigation" icon="search" />
       </View>
