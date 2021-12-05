@@ -8,7 +8,7 @@ import {
   Text,
   View,
 } from "react-native";
-import App, { RootStackParamList } from "../../App";
+import { RootStackParamList } from "../../App";
 import CovidApi from "../../CovidApi";
 import AppLoader from "../components/AppLoader";
 import Graph from "../components/Graph";
@@ -19,14 +19,9 @@ import colors from "../config/colors";
 import { country } from "../data/country";
 import { vaccineData } from "../data/vaccineData";
 
-type Props = {
-  loading: boolean;
-};
-
-export default function StatList(
-  { navigation, route }: NativeStackScreenProps<RootStackParamList, "StatList">,
-  { loading }: Props
-) {
+export default function StatList({
+  route,
+}: NativeStackScreenProps<RootStackParamList, "StatList">) {
   const { pageType } = route.params;
   const [cases, setCases] = useState(0);
   const [deaths, setDeaths] = useState(0);
@@ -37,6 +32,7 @@ export default function StatList(
   const [data, setData] = useState({ data: [], loading: true });
   const [pending, setPending] = useState(false);
   const [sortBy, setSortBy] = useState("cases");
+  const [activeButton, setActiveButton] = useState(1);
 
   async function getCovidStats() {
     setPending(true);
@@ -112,21 +108,36 @@ export default function StatList(
         <View style={styles.innerContainer}>
           <Heading text="world statistics" type="screen" />
           <View style={styles.statisticsContainer}>
-            <Statistics
-              title="cases"
-              amount={cases}
-              onPress={() => fetchCovidListData("cases")}
-            />
-            <Statistics
-              title="deaths"
-              amount={deaths}
-              onPress={() => fetchCovidListData("deaths")}
-            />
-            <Statistics
-              title="recovered"
-              amount={recovered}
-              onPress={() => fetchCovidListData("recovered")}
-            />
+            <View style={activeButton == 1 ? styles.border : null}>
+              <Statistics
+                title="cases"
+                amount={cases}
+                onPress={() => {
+                  fetchCovidListData("cases");
+                  setActiveButton(1);
+                }}
+              />
+            </View>
+            <View style={activeButton == 2 ? styles.border : null}>
+              <Statistics
+                title="deaths"
+                amount={cases}
+                onPress={() => {
+                  fetchCovidListData("deaths");
+                  setActiveButton(2);
+                }}
+              />
+            </View>
+            <View style={activeButton == 3 ? styles.border : null}>
+              <Statistics
+                title="recovered"
+                amount={cases}
+                onPress={() => {
+                  fetchCovidListData("recovered");
+                  setActiveButton(3);
+                }}
+              />
+            </View>
           </View>
           <Text
             style={styles.text}
@@ -166,11 +177,21 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: Dimensions.get("screen").width,
+    padding: 10,
   },
   text: {
     alignSelf: "center",
     color: colors.covidRed,
     fontStyle: "italic",
+    paddingBottom: 10,
   },
-  innerContainer: { flex: 1, margin: 20 },
+  innerContainer: {
+    flex: 1,
+    margin: 20,
+  },
+  border: {
+    borderWidth: 2,
+    borderRadius: 20,
+    borderColor: colors.covidRed,
+  },
 });

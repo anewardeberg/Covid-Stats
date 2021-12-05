@@ -1,5 +1,6 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
+import colors from "../config/colors";
 import Button from "./Button";
 
 type Props = {
@@ -16,6 +17,7 @@ type Props = {
 };
 
 export default function GraphController({ labels, period }: Props) {
+  const [activeButton, setActiveButton] = useState(1);
   function getPreviousWeeks(amount: number) {
     var weeks = [];
     var current = new Date();
@@ -55,60 +57,75 @@ export default function GraphController({ labels, period }: Props) {
 
   return (
     <View style={styles.timeStampsContainer}>
-      <Button
-        onPress={() => {
-          period.setCurrent("all");
-          labels.setCurrent({
-            data: ["Dec. 2019", " ", " ", " ", " ", "Today"],
-            loading: false,
-          });
-        }}
-        type="timeStamp"
-        title="All"
-      />
-      <Button
-        onPress={() => {
-          period.setCurrent("365");
-          getPreviousMonths(12);
-        }}
-        type="timeStamp"
-        title="1 year"
-      />
-      <Button
-        onPress={() => {
-          period.setCurrent("90");
-          getPreviousMonths(3);
-        }}
-        type="timeStamp"
-        title="3 months"
-      />
-      <Button
-        onPress={() => {
-          period.setCurrent("30");
-          getPreviousWeeks(4);
-        }}
-        type="timeStamp"
-        title="1 month"
-      />
-      <Button
-        onPress={() => {
-          period.setCurrent("7");
-          labels.setCurrent({
-            data: [
-              "Monday",
-              "Tuesday",
-              "Wednesday",
-              "Thursday",
-              "Friday",
-              "Saturday",
-              "Sunday",
-            ],
-            loading: false,
-          });
-        }}
-        type="timeStamp"
-        title="1 week"
-      />
+      <View style={activeButton == 1 ? styles.border : null}>
+        <Button
+          onPress={() => {
+            period.setCurrent("all");
+            labels.setCurrent({
+              data: ["Dec. 2019", " ", " ", " ", " ", "Today"],
+              loading: false,
+            });
+            setActiveButton(1);
+          }}
+          type="timeStamp"
+          title="All"
+        />
+      </View>
+      <View style={activeButton == 2 ? styles.border : null}>
+        <Button
+          onPress={() => {
+            period.setCurrent("365");
+            getPreviousMonths(12);
+            setActiveButton(2);
+          }}
+          type="timeStamp"
+          title="1 year"
+        />
+      </View>
+      <View style={activeButton == 3 ? styles.border : null}>
+        <Button
+          onPress={() => {
+            period.setCurrent("90");
+            getPreviousMonths(3);
+            setActiveButton(3);
+          }}
+          type="timeStamp"
+          title="3 months"
+        />
+      </View>
+      <View style={activeButton == 4 ? styles.border : null}>
+        <Button
+          onPress={() => {
+            period.setCurrent("30");
+            getPreviousWeeks(4);
+            setActiveButton(4);
+          }}
+          type="timeStamp"
+          title="1 month"
+        />
+      </View>
+      <View style={activeButton == 5 ? styles.border : null}>
+        <Button
+          onPress={() => {
+            period.setCurrent("7");
+            labels.setCurrent({
+              data: [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday",
+              ],
+              loading: false,
+            });
+            setActiveButton(5);
+          }}
+          type="timeStamp"
+          title="1 week"
+        />
+      </View>
     </View>
   );
 }
@@ -121,5 +138,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginRight: 10,
     marginLeft: 10,
+    marginBottom: 10,
+  },
+  border: {
+    height: 40,
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: colors.covidRed,
   },
 });

@@ -40,6 +40,7 @@ export default function Detail(
   const [data, setData] = useState({ data: [], loading: true });
   const [period, setPeriod] = useState<string | null>("all");
   const [apiType, setApiType] = useState("cases");
+  const [activeButton, setActiveButton] = useState(1);
 
   useEffect(() => {
     getCovidStats();
@@ -92,25 +93,35 @@ export default function Detail(
       <View style={styles.container}>
         <Heading text={countryCode} subtitle={countryName} type="detail" />
         <View style={styles.statisticsContainer}>
-          <Statistics
-            title="cases"
-            amount={cases.cases}
-            onPress={() => {
-              period && getCovidTimeSeriesData(period, "cases");
-            }}
-          />
-          <Statistics
-            title="deaths"
-            amount={deaths}
-            onPress={() => period && getCovidTimeSeriesData(period, "deaths")}
-          />
-          <Statistics
-            title="recovered"
-            amount={recovered}
-            onPress={() =>
-              period && getCovidTimeSeriesData(period, "recovered")
-            }
-          />
+          <View style={activeButton == 1 ? styles.border : null}>
+            <Statistics
+              title="cases"
+              amount={cases.cases}
+              onPress={() => {
+                period && getCovidTimeSeriesData(period, "cases");
+              }}
+            />
+          </View>
+          <View style={activeButton == 2 ? styles.border : null}>
+            <Statistics
+              title="deaths"
+              amount={deaths}
+              onPress={() => {
+                period && getCovidTimeSeriesData(period, "deaths");
+                setActiveButton(2);
+              }}
+            />
+          </View>
+          <View style={activeButton == 3 ? styles.border : null}>
+            <Statistics
+              title="recovered"
+              amount={recovered}
+              onPress={() => {
+                period && getCovidTimeSeriesData(period, "recovered");
+                setActiveButton(3);
+              }}
+            />
+          </View>
         </View>
         <GraphController
           labels={{ current: labels, setCurrent: setLabels }}
@@ -156,5 +167,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: Dimensions.get("screen").width,
+    padding: 10,
+  },
+  border: {
+    borderWidth: 2,
+    borderRadius: 20,
+    borderColor: colors.covidRed,
   },
 });

@@ -40,7 +40,7 @@ export default function Graph({
               } as unknown as LineChartData)
         }
         width={Dimensions.get("window").width / 1.05} // from react-native
-        height={250}
+        height={240}
         withDots={false}
         yAxisInterval={7}
         formatYLabel={(yValue) => {

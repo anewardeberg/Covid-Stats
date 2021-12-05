@@ -28,7 +28,6 @@ export default function Statistics({ title, amount, onPress }: Props) {
 
 const styles = StyleSheet.create({
   statisticsContainer: {
-    margin: 9,
     backgroundColor: colors.white,
     width: Dimensions.get("screen").width / 3.5,
     height: 75,
