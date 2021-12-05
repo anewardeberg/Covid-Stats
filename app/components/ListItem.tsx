@@ -16,7 +16,7 @@ type Props = {
   num?: number;
   title: string;
   flagUri?: string;
-  pageType: string;
+  pageType?: string;
 };
 
 export default function ListItem({ num, title, flagUri, pageType }: Props) {

@@ -8,6 +8,7 @@ import CompareData from "../components/CompareData";
 import Button from "../components/Exports";
 import Flag from "../components/Flag";
 import Graph from "../components/Graph";
+import GraphController from "../components/GraphController";
 import Heading from "../components/Heading";
 import colors from "../config/colors";
 import { country } from "../data/country";
@@ -31,9 +32,15 @@ export default function Compare({
     doses: 1,
     loading: true,
   });
-  const [period, setPeriod] = useState("30");
+  const [period, setPeriod] = useState<string | null>("all");
   const [loading, setLoading] = useState(true);
-  const [labels, setLabels] = useState<String[]>([]);
+  const [labels, setLabels] = useState<{
+    data: string[];
+    loading: boolean;
+  } | null>({
+    data: ["Dec. 2019", " ", " ", " ", " ", "Today"],
+    loading: false,
+  });
   const graphData = [
     {
       data: country1VaccineData.data,
@@ -109,41 +116,6 @@ export default function Compare({
     setLoading(false);
   }
 
-  function getPreviousMonths(amount: number) {
-    var months = [];
-    const monthNames = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ];
-    var current = new Date();
-    for (var i = 0; i < amount; i++) {
-      months.push(monthNames[current.getMonth() - i]);
-    }
-    setLabels(months.reverse() as never);
-  }
-
-  function getPreviousWeeks(amount: number) {
-    var weeks = [];
-    var current = new Date();
-    var oneJan = new Date(current.getFullYear(), 0, 1);
-    var numberOfDays = Math.floor((current - oneJan) / (24 * 60 * 60 * 1000));
-    var result = Math.ceil((current.getDay() + 1 + numberOfDays) / 7);
-    for (var i = 0; i < amount; i++) {
-      weeks.push(`Week ${result - i}`);
-    }
-    setLabels(weeks.reverse() as never);
-  }
-
   if (pageType == "infections" && country1 != null && country2 != null) {
     return (
       <View style={styles.container}>
@@ -154,6 +126,7 @@ export default function Compare({
             style={styles.input}
             placeholder="COUNTRY 1"
             onChangeText={onChangeText1}
+            returnKeyType="search"
           />
           <Button
             onPress={() => {
@@ -232,6 +205,7 @@ export default function Compare({
             style={styles.input}
             placeholder="COUNTRY 1"
             onChangeText={onChangeText1}
+            returnKeyType="search"
           />
           <Button
             onPress={() => {
@@ -263,55 +237,17 @@ export default function Compare({
           number1={country1VaccineData.doses}
           number2={country2VaccineData.doses}
         />
-        <View style={styles.timeStampsContainer}>
-          <Button
-            onPress={() => {
-              setPeriod("all");
-              setLabels(["Dec. 2019", " ", " ", " ", " ", "Today"] as never);
-            }}
-            type="timeStamp"
-            title="All"
-          />
-          <Button
-            onPress={() => {
-              setPeriod("365");
-              getPreviousMonths(12);
-            }}
-            type="timeStamp"
-            title="1 year"
-          />
-          <Button
-            onPress={() => {
-              setPeriod("90");
-              getPreviousMonths(3);
-            }}
-            type="timeStamp"
-            title="3 months"
-          />
-          <Button
-            onPress={() => {
-              setPeriod("30");
-              getPreviousWeeks(4);
-            }}
-            type="timeStamp"
-            title="1 month"
-          />
-          <Button
-            onPress={() => {
-              setPeriod("7");
-              setLabels(["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]);
-            }}
-            type="timeStamp"
-            title="1 week"
-          />
-        </View>
+        <GraphController
+          labels={{ current: labels, setCurrent: setLabels }}
+          period={{ current: period, setCurrent: setPeriod }}
+        />
 
         {/* https://github.com/indiespirit/react-native-chart-kit/issues/23 */}
         {country1VaccineData.loading ? null : (
           <View style={styles.chartContainer}>
             <Graph
               multiple
-              labels={labels}
+              labels={labels?.data}
               data={graphData}
               legend1={country1.country}
               legend2={country2.country}

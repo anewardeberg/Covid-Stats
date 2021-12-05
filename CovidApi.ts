@@ -101,7 +101,7 @@ const getVaccineCoveragePeriodCountries = async (lastDays: number) => {
     }
 }
 
-const getVaccineCoverageForCountry = async (country: number | string, period: string) => {
+const getVaccineCoverageForCountry = async (country: number | string, period: string | null) => {
     try {
         const result = await Axios.get(
             `vaccine/coverage/countries/${country}?lastdays=${period}&fullData=false`

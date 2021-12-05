@@ -6,7 +6,7 @@ import { country } from "../data/country";
 import { graphInfo } from "../data/graphInfo";
 
 type Props = {
-  labels: String[];
+  labels: string[] | undefined;
   data: country[] | graphInfo[];
   multiple?: boolean;
   legend1?: string;

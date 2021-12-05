@@ -7,6 +7,7 @@ import AppLoader from "../components/AppLoader";
 import Button from "../components/Exports";
 import Flag from "../components/Flag";
 import Graph from "../components/Graph";
+import GraphController from "../components/GraphController";
 import Heading from "../components/Heading";
 import Statistics from "../components/Statistics";
 import colors from "../config/colors";
@@ -29,19 +30,25 @@ export default function Detail(
   const [countryCode, setCountryCode] = useState("");
   const [deaths, setDeaths] = useState(0);
   const [recovered, setRecovered] = useState(0);
-  const [labels, setLabels] = useState({ data: [], loading: true });
+  const [labels, setLabels] = useState<{
+    data: string[];
+    loading: boolean;
+  } | null>({
+    data: ["Dec. 2019", " ", " ", " ", " ", "Today"],
+    loading: false,
+  });
   const [data, setData] = useState({ data: [], loading: true });
-  const [period, setPeriod] = useState("30");
+  const [period, setPeriod] = useState<string | null>("all");
   const [apiType, setApiType] = useState("cases");
 
   useEffect(() => {
     getCovidStats();
-    getCovidTimeSeriesData(period, apiType);
-    getPreviousWeeks(4);
+    period && getCovidTimeSeriesData(period, apiType);
+    console.log(labels?.data);
   }, []);
 
   useEffect(() => {
-    getCovidTimeSeriesData(period, apiType);
+    period && getCovidTimeSeriesData(period, apiType);
   }, [period, apiType]);
 
   async function getCovidTimeSeriesData(period: string, apiType: string) {
@@ -52,10 +59,6 @@ export default function Detail(
       period
     );
     // https://github.com/indiespirit/react-native-chart-kit/issues/237
-    /* setLabels({
-      data: Object.keys(covidTimeSeriesData.timeline.cases) as never,
-      loading: false,
-    }); */
     if (apiType == "deaths") {
       setData({
         data: Object.values(covidTimeSeriesData.timeline.deaths),
@@ -84,41 +87,6 @@ export default function Detail(
     setCases({ cases: countryCovidStats.cases, loading: false });
   }
 
-  function getPreviousMonths(amount: number) {
-    var months = [];
-    const monthNames = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-    var current = new Date();
-    for (var i = 0; i < amount; i++) {
-      months.push(monthNames[current.getMonth() - i]);
-    }
-    setLabels({ data: months.reverse() as never, loading: false });
-  }
-
-  function getPreviousWeeks(amount: number) {
-    var weeks = [];
-    var current = new Date();
-    var oneJan = new Date(current.getFullYear(), 0, 1);
-    var numberOfDays = Math.floor((current - oneJan) / (24 * 60 * 60 * 1000));
-    var result = Math.ceil((current.getDay() + 1 + numberOfDays) / 7);
-    for (var i = 0; i < amount; i++) {
-      weeks.push(`Week ${result - i}`);
-    }
-    setLabels({ data: weeks.reverse() as never, loading: false });
-  }
-
   if (pageType == "infections") {
     return (
       <View style={styles.container}>
@@ -128,81 +96,30 @@ export default function Detail(
             title="cases"
             amount={cases.cases}
             onPress={() => {
-              getCovidTimeSeriesData(period, "cases");
-              getPreviousMonths(3);
+              period && getCovidTimeSeriesData(period, "cases");
             }}
           />
           <Statistics
             title="deaths"
             amount={deaths}
-            onPress={() => getCovidTimeSeriesData(period, "deaths")}
+            onPress={() => period && getCovidTimeSeriesData(period, "deaths")}
           />
           <Statistics
             title="recovered"
             amount={recovered}
-            onPress={() => getCovidTimeSeriesData(period, "recovered")}
+            onPress={() =>
+              period && getCovidTimeSeriesData(period, "recovered")
+            }
           />
         </View>
-        <View style={styles.timeStampsContainer}>
-          <Button
-            onPress={() => {
-              setPeriod("all");
-              setLabels({
-                data: ["Dec. 2019", " ", " ", " ", " ", "Today"] as never,
-                loading: false,
-              });
-            }}
-            type="timeStamp"
-            title="All"
-          />
-          <Button
-            onPress={() => {
-              setPeriod("365");
-              getPreviousMonths(12);
-            }}
-            type="timeStamp"
-            title="1 year"
-          />
-          <Button
-            onPress={() => {
-              setPeriod("90");
-              getPreviousMonths(3);
-            }}
-            type="timeStamp"
-            title="3 months"
-          />
-          <Button
-            onPress={() => {
-              setPeriod("30");
-              getPreviousWeeks(4);
-            }}
-            type="timeStamp"
-            title="1 month"
-          />
-          <Button
-            onPress={() => {
-              setPeriod("7");
-              setLabels({
-                data: [
-                  "Monday",
-                  "Tuesday",
-                  "Wednesday",
-                  "Thursday",
-                  "Friday",
-                  "Saturday",
-                  "Sunday",
-                ] as never,
-                loading: false,
-              });
-            }}
-            type="timeStamp"
-            title="1 week"
-          />
-        </View>
+        <GraphController
+          labels={{ current: labels, setCurrent: setLabels }}
+          period={{ current: period, setCurrent: setPeriod }}
+        />
         {data.loading ? (
           <AppLoader />
         ) : (
-          <Graph labels={labels.data as never} data={data.data as never} />
+          labels && <Graph labels={labels.data} data={data.data} />
         )}
         <Flag uri={flagUri} type="detail" />
       </View>
@@ -211,66 +128,17 @@ export default function Detail(
     return (
       <View style={styles.container}>
         <Heading text={countryCode} subtitle={countryName} type="detail" />
-        <View style={styles.timeStampsContainer}>
-          <Button
-            onPress={() => {
-              setPeriod("all");
-              setLabels({
-                data: ["Dec. 2019", " ", " ", " ", " ", "Today"] as never,
-                loading: false,
-              });
-            }}
-            type="timeStamp"
-            title="All"
-          />
-          <Button
-            onPress={() => {
-              setPeriod("365");
-              getPreviousMonths(12);
-            }}
-            type="timeStamp"
-            title="1 year"
-          />
-          <Button
-            onPress={() => {
-              setPeriod("90");
-              getPreviousMonths(3);
-            }}
-            type="timeStamp"
-            title="3 months"
-          />
-          <Button
-            onPress={() => {
-              setPeriod("30");
-              getPreviousWeeks(4);
-            }}
-            type="timeStamp"
-            title="1 month"
-          />
-          <Button
-            onPress={() => {
-              setPeriod("7");
-              setLabels({
-                data: [
-                  "Monday",
-                  "Tuesday",
-                  "Wednesday",
-                  "Thursday",
-                  "Friday",
-                  "Saturday",
-                  "Sunday",
-                ] as never,
-                loading: false,
-              });
-            }}
-            type="timeStamp"
-            title="1 week"
-          />
-        </View>
+        <GraphController
+          labels={{ current: labels, setCurrent: setLabels }}
+          period={{ current: period, setCurrent: setPeriod }}
+        />
+
         {data.loading ? (
           <AppLoader />
         ) : (
-          <Graph labels={labels.data as never} data={data.data as never} />
+          labels?.data && (
+            <Graph labels={labels.data as never} data={data.data as never} />
+          )
         )}
         <Flag uri={flagUri} type="detail" />
       </View>
@@ -288,11 +156,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: Dimensions.get("screen").width,
-  },
-  timeStampsContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginRight: 10,
-    marginLeft: 10,
   },
 });
