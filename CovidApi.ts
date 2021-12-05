@@ -1,4 +1,5 @@
 import Axios from 'axios'
+import { country } from './app/data/country'
 
 Axios.defaults.baseURL = "https://disease.sh/v3/covid-19/"
 const getGlobalCovidStats = async () => {
@@ -17,7 +18,7 @@ const getAllCountriesCovidStats = async () => {
         const result = await Axios.get(
             "countries"
         )
-        return result.data
+        return result.data 
     } catch (error) {
         throw `Error fetching Covid stats for countries: ${error}`
     }
@@ -28,7 +29,7 @@ const getCovidStatForCountry = async (country: string | number ) => {
         const result = await Axios.get(
             `countries/${country}`
         )
-        return result.data
+        return result.data as unknown as country
     } catch (error) {
         throw `Error fetching Covid stats for ${country}: ${error}`
     }
@@ -39,7 +40,7 @@ const getCovidStatForMultipleCountries = async (countries: string | number ) => 
         const result = await Axios.get(
             `countries/${countries}`
         )
-        return result.data
+        return result.data as unknown as country[]
     } catch (error) {
         throw `Error fetching Covid stats for ${countries}: ${error}`
     }

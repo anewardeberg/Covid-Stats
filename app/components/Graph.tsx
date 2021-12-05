@@ -1,10 +1,13 @@
 import React from "react";
 import { Dimensions, StyleSheet, Text, View } from "react-native";
 import { LineChart } from "react-native-chart-kit";
+import { LineChartData } from "react-native-chart-kit/dist/line-chart/LineChart";
+import { country } from "../data/country";
+import { graphInfo } from "../data/graphInfo";
 
 type Props = {
-  labels: [];
-  data: [];
+  labels: String[];
+  data: country[] | graphInfo[];
   multiple?: boolean;
   legend1?: string;
   legend2?: string;
@@ -22,19 +25,19 @@ export default function Graph({
       <LineChart
         data={
           multiple
-            ? {
+            ? ({
                 labels: labels,
                 datasets: data,
                 legend: [legend1, legend2],
-              }
-            : {
+              } as LineChartData)
+            : ({
                 labels: labels,
                 datasets: [
                   {
                     data: data,
                   },
                 ],
-              }
+              } as unknown as LineChartData)
         }
         width={Dimensions.get("window").width / 1.05} // from react-native
         height={250}

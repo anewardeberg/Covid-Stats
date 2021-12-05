@@ -1,13 +1,6 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
-import {
-  Dimensions,
-  ScrollView,
-  StyleSheet,
-  TextInput,
-  View,
-} from "react-native";
-import { LineChart } from "react-native-chart-kit";
+import { ScrollView, StyleSheet, TextInput, View } from "react-native";
 import { RootStackParamList } from "../../App";
 import CovidApi from "../../CovidApi";
 import AppLoader from "../components/AppLoader";
@@ -17,6 +10,7 @@ import Flag from "../components/Flag";
 import Graph from "../components/Graph";
 import Heading from "../components/Heading";
 import colors from "../config/colors";
+import { country } from "../data/country";
 
 export default function Compare({
   navigation,
@@ -25,32 +19,8 @@ export default function Compare({
   const { pageType } = route.params;
   const [text1, onChangeText1] = useState("norway");
   const [text2, onChangeText2] = useState("norway");
-  const [country1, setCountry1] = useState({
-    name: "",
-    flag: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Missing_flag.png",
-    population: 1,
-    cases: 1,
-    tests: 1,
-    deaths: 1,
-    recovered: 1,
-    casesPerOneMillion: 1,
-    testsPerOneMillion: 1,
-    deathsPerOneMillion: 1,
-    recoveredPerOneMillion: 1,
-  });
-  const [country2, setCountry2] = useState({
-    name: "",
-    flag: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Missing_flag.png",
-    population: 1,
-    cases: 1,
-    tests: 1,
-    deaths: 1,
-    recovered: 1,
-    casesPerOneMillion: 1,
-    testsPerOneMillion: 1,
-    deathsPerOneMillion: 1,
-    recoveredPerOneMillion: 1,
-  });
+  const [country1, setCountry1] = useState<country | null>();
+  const [country2, setCountry2] = useState<country | null>();
   const [country1VaccineData, setCountry1VaccineData] = useState({
     data: [1, 1],
     doses: 1,
@@ -63,7 +33,7 @@ export default function Compare({
   });
   const [period, setPeriod] = useState("30");
   const [loading, setLoading] = useState(true);
-  const [labels, setLabels] = useState([]);
+  const [labels, setLabels] = useState<String[]>([]);
   const graphData = [
     {
       data: country1VaccineData.data,
@@ -92,38 +62,14 @@ export default function Compare({
   async function getCovidStatsCountry1(text1: string) {
     setLoading(true);
     const country1CovidStats = await CovidApi.getCovidStatForCountry(text1);
-    setCountry1({
-      name: country1CovidStats.country,
-      flag: country1CovidStats.countryInfo.flag,
-      population: country1CovidStats.population,
-      cases: country1CovidStats.cases,
-      tests: country1CovidStats.tests,
-      deaths: country1CovidStats.deaths,
-      recovered: country1CovidStats.recovered,
-      casesPerOneMillion: country1CovidStats.casesPerOneMillion,
-      testsPerOneMillion: country1CovidStats.testsPerOneMillion,
-      deathsPerOneMillion: country1CovidStats.deathsPerOneMillion,
-      recoveredPerOneMillion: country1CovidStats.recoveredPerOneMillion,
-    });
+    setCountry1(country1CovidStats);
     setLoading(false);
   }
 
   async function getCovidStatsCountry2(text2: string) {
     setLoading(true);
     const country2CovidStats = await CovidApi.getCovidStatForCountry(text2);
-    setCountry2({
-      name: country2CovidStats.country,
-      flag: country2CovidStats.countryInfo.flag,
-      population: country2CovidStats.population,
-      cases: country2CovidStats.cases,
-      tests: country2CovidStats.tests,
-      deaths: country2CovidStats.deaths,
-      recovered: country2CovidStats.recovered,
-      casesPerOneMillion: country2CovidStats.casesPerOneMillion,
-      testsPerOneMillion: country2CovidStats.testsPerOneMillion,
-      deathsPerOneMillion: country2CovidStats.deathsPerOneMillion,
-      recoveredPerOneMillion: country2CovidStats.recoveredPerOneMillion,
-    });
+    setCountry2(country2CovidStats);
     setLoading(false);
   }
 
@@ -198,7 +144,7 @@ export default function Compare({
     setLabels(weeks.reverse() as never);
   }
 
-  if (pageType == "infections") {
+  if (pageType == "infections" && country1 != null && country2 != null) {
     return (
       <View style={styles.container}>
         {loading ? <AppLoader /> : null}
@@ -224,8 +170,8 @@ export default function Compare({
           />
         </View>
         <View style={styles.flagContainer}>
-          <Flag uri={country1.flag} type="icon" />
-          <Flag uri={country2.flag} type="icon" />
+          <Flag uri={country1.countryInfo.flag} type="icon" />
+          <Flag uri={country2.countryInfo.flag} type="icon" />
         </View>
         <ScrollView style={styles.container}>
           <CompareData
@@ -276,7 +222,7 @@ export default function Compare({
         </ScrollView>
       </View>
     );
-  } else {
+  } else if (pageType == "vaccine" && country1 != null && country2 != null) {
     return (
       <View style={styles.container}>
         {loading ? <AppLoader /> : null}
@@ -304,8 +250,8 @@ export default function Compare({
           />
         </View>
         <View style={styles.flagContainer}>
-          <Flag uri={country1.flag} type="icon" />
-          <Flag uri={country2.flag} type="icon" />
+          <Flag uri={country1.countryInfo.flag} type="icon" />
+          <Flag uri={country2.countryInfo.flag} type="icon" />
         </View>
         <CompareData
           title="population"
@@ -353,15 +299,7 @@ export default function Compare({
           <Button
             onPress={() => {
               setPeriod("7");
-              setLabels([
-                "Mon",
-                "Tue",
-                "Wed",
-                "Thu",
-                "Fri",
-                "Sat",
-                "Sun",
-              ] as never);
+              setLabels(["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]);
             }}
             type="timeStamp"
             title="1 week"
@@ -373,15 +311,17 @@ export default function Compare({
           <View style={styles.chartContainer}>
             <Graph
               multiple
-              labels={labels as never}
+              labels={labels}
               data={graphData}
-              legend1={country1.name}
-              legend2={country2.name}
+              legend1={country1.country}
+              legend2={country2.country}
             />
           </View>
         )}
       </View>
     );
+  } else {
+    return <AppLoader />;
   }
 }
 

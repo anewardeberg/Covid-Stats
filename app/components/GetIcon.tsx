@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 
 type Props = {
-  name: string;
+  name: string | undefined;
   size: number;
 };
 

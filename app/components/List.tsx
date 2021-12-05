@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
+import { country } from "../data/country";
 import ListItem from "./ListItem";
 
 type Props = {
   listType: "infections" | "vaccine";
-  data: [];
+  data: country[];
 };
 
 export default function List({ listType, data }: Props) {

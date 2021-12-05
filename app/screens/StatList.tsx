@@ -16,6 +16,8 @@ import Heading from "../components/Heading";
 import List from "../components/List";
 import Statistics from "../components/Statistics";
 import colors from "../config/colors";
+import { country } from "../data/country";
+import { vaccineData } from "../data/vaccineData";
 
 type Props = {
   loading: boolean;
@@ -29,8 +31,9 @@ export default function StatList(
   const [cases, setCases] = useState(0);
   const [deaths, setDeaths] = useState(0);
   const [recovered, setRecovered] = useState(0);
-  const [labels, setLabels] = useState({ data: [], loading: true });
-  const [listData, setListData] = useState([]);
+  const [labels, setLabels] = useState<{ data: string[]; loading: boolean }>();
+  const [listData, setListData] =
+    useState<{ data: string[]; loading: boolean }>();
   const [data, setData] = useState({ data: [], loading: true });
   const [pending, setPending] = useState(false);
   const [sortBy, setSortBy] = useState("cases");
@@ -38,7 +41,6 @@ export default function StatList(
   async function getCovidStats() {
     setPending(true);
     const allCovidData = await CovidApi.getGlobalCovidStats();
-    const covidDataCountry = await CovidApi.getCovidStatForCountry(250);
     setCases(allCovidData.cases);
     setDeaths(allCovidData.deaths);
     setRecovered(allCovidData.recovered);
@@ -51,15 +53,15 @@ export default function StatList(
     const countriesCovidData = await CovidApi.getAllCountriesCovidStats();
     var countriesList;
     if (sortBy == "deaths") {
-      countriesList = countriesCovidData.sort((a, b) => {
+      countriesList = countriesCovidData.sort((a: country, b: country) => {
         return b.deaths - a.deaths;
       });
     } else if (sortBy == "recovered") {
-      countriesList = countriesCovidData.sort((a, b) => {
+      countriesList = countriesCovidData.sort((a: country, b: country) => {
         return b.recovered - a.recovered;
       });
     } else {
-      countriesList = countriesCovidData.sort((a, b) => {
+      countriesList = countriesCovidData.sort((a: country, b: country) => {
         return b.cases - a.cases;
       });
     }
@@ -71,9 +73,11 @@ export default function StatList(
     setPending(true);
     const countriesVaccineData =
       await CovidApi.getVaccineCoveragePeriodCountries(1);
-    const ascendingCountries = countriesVaccineData.sort((a, b) => {
-      return b.timeline[0].total - a.timeline[0].total;
-    });
+    const ascendingCountries = countriesVaccineData.sort(
+      (a: vaccineData, b: vaccineData) => {
+        return b.timeline[0].total - a.timeline[0].total;
+      }
+    );
     setListData(ascendingCountries);
     setPending(false);
   }
@@ -132,19 +136,21 @@ export default function StatList(
         {pending ? <AppLoader /> : null}
       </SafeAreaView>
     );
-  } else {
+  } else if (pageType == "vaccine" && labels != undefined) {
     return (
       <SafeAreaView style={styles.container}>
         {pending ? <AppLoader /> : null}
         <View style={styles.innerContainer}>
           <Heading text="world statistics" type="screen" />
           {data.loading ? null : (
-            <Graph labels={labels.data as never} data={data.data as never} />
+            <Graph labels={labels.data} data={data.data} />
           )}
           <List listType="vaccine" data={listData as never} />
         </View>
       </SafeAreaView>
     );
+  } else {
+    return <AppLoader />;
   }
 }
 
