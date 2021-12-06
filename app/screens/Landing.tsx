@@ -1,7 +1,7 @@
 import React from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { StyleSheet, View } from "react-native";
-import Button from "../components/Exports";
+import { Button } from "../components/Exports";
 import colors from "../config/colors";
 import { RootStackParamList } from "../../App";
 

@@ -1,20 +1,15 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
-import {
-  Dimensions,
-  FlatList,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { Dimensions, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { RootStackParamList } from "../../App";
+import {
+  AppLoader,
+  Graph,
+  Heading,
+  Statistics,
+  List,
+} from "../components/Exports";
 import CovidApi from "../../CovidApi";
-import AppLoader from "../components/AppLoader";
-import Graph from "../components/Graph";
-import Heading from "../components/Heading";
-import List from "../components/List";
-import Statistics from "../components/Statistics";
 import colors from "../config/colors";
 import { country } from "../data/country";
 import { vaccineData } from "../data/vaccineData";
@@ -121,7 +116,7 @@ export default function StatList({
             <View style={activeButton == 2 ? styles.border : null}>
               <Statistics
                 title="deaths"
-                amount={cases}
+                amount={deaths}
                 onPress={() => {
                   fetchCovidListData("deaths");
                   setActiveButton(2);
@@ -131,7 +126,7 @@ export default function StatList({
             <View style={activeButton == 3 ? styles.border : null}>
               <Statistics
                 title="recovered"
-                amount={cases}
+                amount={recovered}
                 onPress={() => {
                   fetchCovidListData("recovered");
                   setActiveButton(3);

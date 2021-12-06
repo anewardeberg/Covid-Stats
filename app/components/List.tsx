@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { country } from "../data/country";
-import ListItem from "./ListItem";
+import { ListItem } from "./Exports";
 
 type Props = {
   listType: "infections" | "vaccine";

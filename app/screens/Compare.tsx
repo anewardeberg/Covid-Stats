@@ -3,18 +3,19 @@ import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, TextInput, View } from "react-native";
 import { RootStackParamList } from "../../App";
 import CovidApi from "../../CovidApi";
-import AppLoader from "../components/AppLoader";
-import CompareData from "../components/CompareData";
-import Button from "../components/Exports";
-import Flag from "../components/Flag";
-import Graph from "../components/Graph";
-import GraphController from "../components/GraphController";
-import Heading from "../components/Heading";
+import {
+  Button,
+  AppLoader,
+  CompareData,
+  Flag,
+  Graph,
+  GraphController,
+  Heading,
+} from "../components/Exports";
 import colors from "../config/colors";
 import { country } from "../data/country";
 
 export default function Compare({
-  navigation,
   route,
 }: NativeStackScreenProps<RootStackParamList, "Compare">) {
   const { pageType } = route.params;
@@ -34,6 +35,7 @@ export default function Compare({
   });
   const [period, setPeriod] = useState<string | null>("all");
   const [loading, setLoading] = useState(true);
+  // used code from previous collaborative project
   const [labels, setLabels] = useState<{
     data: string[];
     loading: boolean;

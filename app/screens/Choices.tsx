@@ -2,8 +2,7 @@ import React from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { StyleSheet, View } from "react-native";
 import { RootStackParamList } from "../../App";
-import Button from "../components/Exports";
-import Heading from "../components/Heading";
+import { Button, Heading } from "../components/Exports";
 import colors from "../config/colors";
 
 export default function Choices({

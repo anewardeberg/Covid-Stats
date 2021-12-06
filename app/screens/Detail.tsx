@@ -3,23 +3,19 @@ import React, { useEffect, useState } from "react";
 import { Dimensions, StyleSheet, Text, View } from "react-native";
 import { RootStackParamList } from "../../App";
 import CovidApi from "../../CovidApi";
-import AppLoader from "../components/AppLoader";
-import Button from "../components/Exports";
-import Flag from "../components/Flag";
-import Graph from "../components/Graph";
-import GraphController from "../components/GraphController";
-import Heading from "../components/Heading";
-import Statistics from "../components/Statistics";
+import {
+  AppLoader,
+  Flag,
+  Graph,
+  GraphController,
+  Heading,
+  Statistics,
+} from "../components/Exports";
 import colors from "../config/colors";
 
-type Props = {
-  loading: boolean;
-};
-
-export default function Detail(
-  { navigation, route }: NativeStackScreenProps<RootStackParamList, "Detail">,
-  { loading }: Props
-) {
+export default function Detail({
+  route,
+}: NativeStackScreenProps<RootStackParamList, "Detail">) {
   const { pageType } = route.params;
   const { country } = route.params;
   const [cases, setCases] = useState({ cases: 0, loading: true });
@@ -30,6 +26,7 @@ export default function Detail(
   const [countryCode, setCountryCode] = useState("");
   const [deaths, setDeaths] = useState(0);
   const [recovered, setRecovered] = useState(0);
+  // used code from previous collaborative project
   const [labels, setLabels] = useState<{
     data: string[];
     loading: boolean;

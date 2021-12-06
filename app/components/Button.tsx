@@ -3,12 +3,11 @@ import colors from "../config/colors";
 import {
   GestureResponderEvent,
   StyleSheet,
-  Image,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
-import GetIcon from "./GetIcon";
+import { GetIcon } from "../components/Exports";
 
 type Props = {
   onPress: (event: GestureResponderEvent) => void;

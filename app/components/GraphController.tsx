@@ -1,8 +1,9 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
 import colors from "../config/colors";
-import Button from "./Button";
+import { Button } from "./Exports";
 
+// used code from previous collaborative project
 type Props = {
   labels: {
     current: { data: string[]; loading: boolean } | null;

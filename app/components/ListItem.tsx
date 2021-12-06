@@ -1,5 +1,4 @@
 import { useNavigation } from "@react-navigation/core";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
 import {
   Platform,
@@ -8,9 +7,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { RootStackParamList } from "../../App";
 import colors from "../config/colors";
-import Flag from "./Flag";
+import { Flag } from "./Exports";
 
 type Props = {
   num?: number;

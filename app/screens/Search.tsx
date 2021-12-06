@@ -3,8 +3,7 @@ import React, { useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import { RootStackParamList } from "../../App";
 import CovidApi from "../../CovidApi";
-import Button from "../components/Exports";
-import InputField from "../components/InputField";
+import { Button } from "../components/Exports";
 import colors from "../config/colors";
 
 export default function Search({
