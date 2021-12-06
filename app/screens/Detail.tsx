@@ -96,6 +96,7 @@ export default function Detail({
               amount={cases.cases}
               onPress={() => {
                 period && getCovidTimeSeriesData(period, "cases");
+                setActiveButton(1);
               }}
             />
           </View>

@@ -47,6 +47,7 @@ export default function Graph({
           return yValue.substring(0, yValue.length - 3);
         }}
         verticalLabelRotation={20}
+        horizontalLabelRotation={-55}
         chartConfig={{
           backgroundColor: "#e26a00",
           backgroundGradientFrom: "#fff",

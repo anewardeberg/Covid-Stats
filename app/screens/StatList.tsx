@@ -148,9 +148,19 @@ export default function StatList({
         {pending ? <AppLoader /> : null}
         <View style={styles.innerContainer}>
           <Heading text="world statistics" type="screen" />
+          <Text style={styles.text}>
+            Graph shows amount of vaccines administrated globally.
+          </Text>
           {data.loading ? null : (
-            <Graph labels={labels.data} data={data.data} />
+            <Graph
+              labels={["Dec. 2019", " ", " ", " ", " ", "Today"]}
+              data={data.data}
+            />
           )}
+          <Text style={styles.text}>
+            List is sorted by reported amount of administrated doses in a
+            descending order.
+          </Text>
           <List listType="vaccine" data={listData as never} />
         </View>
       </SafeAreaView>
