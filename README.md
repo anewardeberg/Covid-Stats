@@ -1,4 +1,10 @@
 # Covid Stats (TDS200 eksamen, H2021)
+### How to run
+1. Download project .zip folder or clone repository.
+2. Run `npm i`
+3. Run `expo start`
+4. Scan QR and run with the Expo Go app (Download for [Android](https://play.google.com/store/apps/details?id=host.exp.exponent) or [iOS](https://search.itunes.apple.com/WebObjects/MZContentLink.woa/wa/link?path=apps%2fexponent))
+
 ## 1.1 Covid Stats
 Covid stats er en app som benytter seg av [Disease.sh API'et](https://disease.sh) for å fremstille data på en mer leselig måte. 
 Appen gir bruker mulighet til å se ulik statistikk for både smitte og vaksine, i tillegg til å gjøre det mulig å se detaljert statistikk 
