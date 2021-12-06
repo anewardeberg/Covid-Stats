@@ -192,6 +192,7 @@ export default function Compare({
             number1={country1.recoveredPerOneMillion}
             number2={country2.recoveredPerOneMillion}
           />
+          <View style={{ height: 300 }} />
         </ScrollView>
       </View>
     );
@@ -289,6 +290,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     flexDirection: "row",
     justifyContent: "space-between",
+    paddingBottom: 10,
   },
   timeStampsContainer: {
     flexDirection: "row",
